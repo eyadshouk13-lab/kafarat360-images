@@ -536,6 +536,43 @@
     if (name === "best") body.innerHTML = '<salla-products-list source="sales" source-value="[]"></salla-products-list>';
   }
 
+
+  /* ---------- Salla product cards everywhere: website-style body (brand, meta, price, 2 / 4 tire packages) ---------- */
+  var cardData = null;
+  function cardInfo(cb) {
+    if (cardData) return cb(cardData);
+    Promise.all([load("products.json"), load("brands.json")]).then(function (res) {
+      var m = {}, logos = {};
+      res[0].forEach(function (p) { m[p.i] = p; });
+      res[1].forEach(function (b) { if (b.logo) logos[b.i] = b.logo; });
+      cardData = { m: m, logos: logos }; cb(cardData);
+    }).catch(function () {});
+  }
+  function enhanceCard(cardEl) {
+    if (cardEl.getAttribute("data-k360-cx")) return;
+    var id = +cardEl.id; if (!id) return;
+    cardEl.setAttribute("data-k360-cx", "1");
+    cardInfo(function (D) {
+      var p = D.m[id], content = cardEl.querySelector(".s-product-card-content"); if (!p || !content) return;
+      var off = p.s && p.s < p.pr ? 1 : 0, u = price(p), logo = D.logos[p.bi];
+      var box = document.createElement("div");
+      box.className = "k360-site k360-cx";
+      box.innerHTML =
+        '<div class="card-brand">' + (logo ? '<img src="' + LOGO + esc(logo) + '" alt="">' : "") + "<span>" + esc(p.b) + "</span></div>" +
+        '<div class="card-meta"><span>&#x1F6E1;&#xFE0F; ضمان ' + (p.g ? p.g + " سنوات" : "الوكيل") + "</span><span>" + esc(p.c || "") + (p.y ? " · " + p.y : "") + "</span></div>" +
+        '<div class="price"><b>' + money(u) + "</b>" + (off ? "<s>" + money(p.pr) + "</s>" : "") + "<small>للإطار</small></div>" +
+        '<div class="pkgs">' +
+        '<button type="button" class="pkg" data-add="' + id + '" data-q="2"><span class="pkg-t">باقة كفرين</span><b>' + money(u * 2) + "</b>" + (off ? "<s>" + money(p.pr * 2) + "</s>" : "") + "<small>&#x1F6D2; أضف</small></button>" +
+        '<button type="button" class="pkg hot" data-add="' + id + '" data-q="4"><i>مجموعة كاملة</i><span class="pkg-t">باقة 4 كفرات</span><b>' + money(u * 4) + "</b>" + (off ? "<s>" + money(p.pr * 4) + "</s>" : "") + "<small>&#x1F6D2; أضف</small></button></div>";
+      box.addEventListener("click", function (e) {
+        var b = e.target.closest("[data-add]"); if (!b) return;
+        e.preventDefault(); e.stopPropagation(); addToCart(+b.getAttribute("data-add"), +b.getAttribute("data-q"), b);
+      });
+      content.appendChild(box);
+      cardEl.classList.add("k360-has-pk");
+    });
+  }
+
   /* ---------- start ---------- */
   var INIT = { finder: initFinder, collections: initCollections, tabs: initTabs, garage: initGarage, shop: initShop, brands: initBrands };
   function scan() {
@@ -545,7 +582,7 @@
       el.setAttribute("data-k360-on", "1"); fn(el);
     });
     var cards = document.querySelectorAll(".s-product-card-entry");
-    for (var i = 0; i < cards.length; i++) addRibbon(cards[i]);
+    for (var i = 0; i < cards.length; i++) { addRibbon(cards[i]); enhanceCard(cards[i]); }
     initPackages();
     initNav();
   }

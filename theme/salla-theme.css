@@ -612,3 +612,12 @@ body.theme-raed { background-color: var(--k-bg); color: var(--k-ink); }
 .k360-nav .nav .wrap { scrollbar-width: none; }
 .k360-nav .nav .wrap::-webkit-scrollbar { display: none; }
 .k360-site .card .pkg { cursor: pointer; font-family: inherit; }
+
+/* ---------- Salla product cards: website-style body ---------- */
+.theme-raed .s-product-card-entry.k360-has-pk .s-product-card-content-subtitle,
+.theme-raed .s-product-card-entry.k360-has-pk .s-product-card-content-sub,
+.theme-raed .s-product-card-entry.k360-has-pk .s-product-card-content-footer { display: none; }
+.theme-raed .s-product-card-entry.k360-has-pk .s-product-card-content { gap: 8px; }
+.k360-cx { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.k360-cx .card-brand img { height: 20px; width: auto; max-width: 80px; object-fit: contain; }
+.k360-cx .pkgs { margin-top: 2px; }
