@@ -68,6 +68,7 @@ body.theme-raed { background-color: var(--k-bg); color: var(--k-ink); }
 .k360-pay .k360-pay__tamara { background: linear-gradient(90deg, #F5B5A2, #F7E3A6, #C9B6F2, #9EC3F2); color: #000; }
 
 /* ================= 8) hero video (k360-hero) ================= */
+.theme-raed .s-block:has(> .k360-hero), .theme-raed .s-block:has(> .s-block > .k360-hero) { margin-top: 0; }
 .k360-hero { position: relative; height: 88vh; min-height: 520px; overflow: hidden; background: #111; color: #fff; }
 .k360-hero__media { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
 .k360-hero__media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -146,8 +147,129 @@ body.theme-raed { background-color: var(--k-bg); color: var(--k-ink); }
 .k360-video__box { border-radius: var(--k-r); overflow: hidden; background: #111; aspect-ratio: 16 / 9; box-shadow: var(--k-sh); }
 .k360-video__box video { display: block; width: 100%; height: 100%; object-fit: cover; background: #111; }
 
+/* ================= 10b) JS-driven sections (finder, collections, tabs, garage, shop, packages, ribbon) ================= */
+.k360-sec { margin-top: 32px; scroll-margin-top: 90px; }
+.k360-box { background: var(--k-card); border: 1px solid var(--k-line); border-radius: var(--k-r); box-shadow: var(--k-sh); padding: 16px; }
+.k360-hint { color: var(--k-muted); font-size: 13px; margin-top: 10px; line-height: 1.6; }
+.k360-empty { color: var(--k-muted); text-align: center; padding: 24px 8px; }
+.k360-tabsbar { display: flex; gap: 6px; background: #F3F4F6; border-radius: 12px; padding: 4px; margin-bottom: 14px; }
+.k360-tabsbar button { flex: 1; border: 0; background: transparent; padding: 10px 6px; border-radius: 9px; font: inherit; font-weight: 700; font-size: 14px; color: var(--k-ink2); cursor: pointer; }
+.k360-tabsbar button.is-on { background: #fff; color: var(--k-brand-d); box-shadow: 0 2px 8px rgba(15,23,32,.08); }
+.k360-tabsbar--title { background: none; padding: 0; gap: 18px; justify-content: flex-start; }
+.k360-tabsbar--title button { flex: 0 0 auto; padding: 4px 0; font-size: 20px; font-weight: 800; color: var(--k-muted); border-radius: 0; border-bottom: 3px solid transparent; }
+.k360-tabsbar--title button.is-on { background: none; box-shadow: none; color: var(--k-ink); border-bottom-color: var(--k-brand); }
+.k360-row1, .k360-row2, .k360-row3 { display: grid; gap: 8px; }
+.k360-row2 { grid-template-columns: 1fr 1fr; }
+.k360-row3 { grid-template-columns: 1fr 1fr 1fr; }
+.k360-box select, .k360-box input, .k360-shop select, .k360-garage select, .k360-garage input {
+  width: 100%; height: 46px; border: 1px solid var(--k-line); border-radius: var(--k-r-sm); background: #fff; color: var(--k-ink); padding: 0 10px; font: inherit; font-size: 14px;
+}
+.k360-box select:disabled { background: #F3F4F6; color: #9CA3AF; }
+.k360-btn--line { background: #fff; color: var(--k-ink2); border: 1px solid var(--k-line); }
+.k360-btn--line:hover { border-color: var(--k-brand); color: var(--k-brand-d); }
+.k360-more { display: flex; width: 100%; margin-top: 14px; border: 0; cursor: pointer; }
+.k360-chip { border: 1px solid var(--k-line); background: #fff; border-radius: 30px; padding: 8px 14px; font: inherit; font-size: 13px; font-weight: 700; color: var(--k-ink2); cursor: pointer; white-space: nowrap; }
+.k360-chip.is-on { background: var(--k-brand); border-color: var(--k-brand); color: #fff; }
+.k360-chip.is-out { opacity: .45; cursor: not-allowed; }
+.k360-chip small { font-weight: 400; opacity: .8; }
+.k360-chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
+.k360-chips::-webkit-scrollbar { display: none; }
+.k360-sizes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.k360-finder__res { margin-top: 16px; }
+.k360-shop__count { color: var(--k-muted); font-size: 13px; margin-bottom: 10px; }
+
+/* product card used by the JS sections */
+.k360-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.k360-pcard { position: relative; display: flex; flex-direction: column; gap: 4px; background: #fff; border: 1px solid var(--k-line); border-radius: var(--k-r); padding: 10px; color: var(--k-ink); text-decoration: none; box-shadow: var(--k-sh); transition: transform .2s, box-shadow .2s; }
+.k360-pcard:hover { transform: translateY(-3px); box-shadow: var(--k-sh-hover); color: var(--k-ink); }
+.k360-pcard__img { display: block; aspect-ratio: 1; background: #fff; border-radius: 10px; overflow: hidden; }
+.k360-pcard__img img { width: 100%; height: 100%; object-fit: contain; }
+.k360-pcard__off { position: absolute; z-index: 2; top: 10px; right: 10px; background: var(--k-brand); color: #fff; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 20px; }
+.k360-pcard__brand { font-size: 11px; color: var(--k-muted); }
+.k360-pcard__name { font-size: 13px; font-weight: 800; line-height: 1.35; }
+.k360-pcard__size { font-size: 12px; font-weight: 700; color: var(--k-brand-d); direction: ltr; text-align: right; }
+.k360-pcard__price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; margin-top: auto; }
+.k360-pcard__price b { font-size: 15px; }
+.k360-pcard__price s { font-size: 12px; color: var(--k-muted); }
+.k360-strip { display: grid; grid-auto-flow: column; grid-auto-columns: 46%; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 4px 2px 8px; }
+.k360-strip::-webkit-scrollbar { display: none; }
+.k360-strip .k360-pcard { scroll-snap-align: start; }
+.k360-colinfo { margin: 14px 0 10px; }
+.k360-colinfo h3 { font-size: 18px; font-weight: 800; color: var(--k-ink); }
+.k360-colinfo p { color: var(--k-muted); font-size: 13px; }
+
+/* categories grid */
+.k360-cats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.k360-cats[hidden] { display: none; }
+.k360-cat { display: flex; flex-direction: column; align-items: center; gap: 6px; background: #fff; border: 1px solid var(--k-line); border-radius: var(--k-r); padding: 16px 6px; text-align: center; text-decoration: none; color: var(--k-ink); box-shadow: var(--k-sh); }
+.k360-cat:hover { border-color: var(--k-brand); color: var(--k-brand-d); }
+.k360-cat span { font-size: 28px; line-height: 1; }
+.k360-cat b { font-size: 13px; font-weight: 800; }
+
+/* my garage */
+.k360-garage { background: linear-gradient(135deg, #1E1430, #3A1A75); color: #fff; border-radius: var(--k-r); padding: 18px 16px; }
+.k360-garage__head { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 14px; }
+.k360-garage__head > span { font-size: 34px; line-height: 1; }
+.k360-garage__head h2 { font-size: 20px; font-weight: 800; color: #fff; }
+.k360-garage__head h2 small { font-size: 13px; font-weight: 400; opacity: .8; }
+.k360-garage__head p { font-size: 13px; color: #E9E4DA; margin-top: 4px; }
+.k360-garage .k360-hint { color: #D8CCF5; }
+.k360-garage__form { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+.k360-garage__form button { grid-column: 1 / -1; border: 0; cursor: pointer; }
+.k360-garage__list { display: grid; gap: 8px; }
+.k360-garage__car { display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; align-items: center; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.2); border-radius: 12px; padding: 10px 12px; }
+.k360-garage__car b { font-size: 15px; }
+.k360-garage__car span { font-size: 13px; color: #E9E4DA; direction: ltr; text-align: left; }
+.k360-garage__car .k360-btn { padding: 9px 12px; font-size: 13px; border: 0; cursor: pointer; }
+
+/* all products + filters */
+.k360-shop { display: grid; gap: 14px; }
+.k360-shop__filters { background: #fff; border: 1px solid var(--k-line); border-radius: var(--k-r); padding: 12px 14px; display: grid; gap: 6px; align-content: start; }
+.k360-shop__filters summary { font-weight: 800; cursor: pointer; padding: 4px 0; }
+.k360-shop__filters label { font-size: 12px; font-weight: 700; color: var(--k-muted); margin-top: 6px; }
+.k360-shop__filters .k360-btn { margin-top: 10px; width: 100%; cursor: pointer; }
+
+/* product page: package table */
+.k360-pkg { margin: 14px 0; border: 1px solid var(--k-line); border-radius: var(--k-r); padding: 12px; background: #fff; }
+.k360-pkg__t { font-weight: 800; margin-bottom: 8px; }
+.k360-pkg table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.k360-pkg th, .k360-pkg td { padding: 8px 6px; border-bottom: 1px solid var(--k-line); text-align: right; }
+.k360-pkg th { color: var(--k-muted); font-weight: 700; }
+.k360-pkg tr:last-child td { border-bottom: 0; }
+
+/* payments row */
+.k360-pay-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.k360-pay-row span { background: #fff; border: 1px solid var(--k-line); border-radius: 12px; width: 76px; height: 52px; display: grid; place-items: center; padding: 8px; }
+.k360-pay-row img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+/* animated ribbon on Salla product cards */
+.theme-raed .s-product-card-image { position: relative; overflow: hidden; }
+.k360-rib { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; height: 24px; overflow: hidden; color: #fff; background: linear-gradient(90deg, #c62828, #e53935); pointer-events: none; }
+.k360-rib--alt { background: linear-gradient(90deg, #4B2296, #7B3FE4); }
+.k360-rib__track { display: flex; width: max-content; height: 100%; animation: k360rib 14s linear infinite; }
+.k360-rib__track > div { display: flex; align-items: center; white-space: nowrap; }
+.k360-rib__track span { font-size: 11.5px; font-weight: 800; padding: 0 10px; }
+.k360-rib__track i { font-style: normal; font-size: 9px; opacity: .85; }
+@keyframes k360rib { from { transform: translateX(0); } to { transform: translateX(50%); } }
+@media (prefers-reduced-motion: reduce) { .k360-rib__track { animation: none; } }
+
 /* ================= 11) wider screens ================= */
 @media (min-width: 768px) {
+  .k360-sec { margin-top: 48px; }
+  .k360-box { padding: 22px; }
+  .k360-row3 { grid-template-columns: 1fr 1fr 1fr; max-width: 720px; }
+  .k360-row1 { max-width: 720px; }
+  .k360-grid { grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .k360-strip { grid-auto-columns: 23%; }
+  .k360-cats { grid-template-columns: repeat(6, 1fr); }
+  .k360-more { width: auto; margin-inline: auto; padding-inline: 40px; }
+  .k360-garage { padding: 24px; }
+  .k360-garage__form { grid-template-columns: 1fr 1fr 1fr 1fr auto; }
+  .k360-garage__form button { grid-column: auto; }
+  .k360-shop { grid-template-columns: 260px 1fr; align-items: start; }
+  .k360-shop__filters { position: sticky; top: 100px; }
+  .k360-shop .k360-grid { grid-template-columns: repeat(3, 1fr); }
+  .k360-tabsbar--title button { font-size: 24px; }
   .theme-raed .s-block__title h2, .k360-title { font-size: 26px; }
   .k360-hero { height: 100vh; max-height: 860px; }
   .k360-hero__shade { background: linear-gradient(90deg, rgba(0,0,0,.05) 0%, rgba(0,0,0,.55) 65%, rgba(0,0,0,.7) 100%); }
