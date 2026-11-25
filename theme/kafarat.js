@@ -43,19 +43,11 @@
       return '<option value="' + esc(v) + '"' + (String(v) === String(sel) ? " selected" : "") + ">" + esc(v) + "</option>";
     }).join("");
   }
-  function card(p) {
-    var off = p.s && p.s < p.pr ? Math.round((1 - p.s / p.pr) * 100) : 0;
-    return '<a class="k360-pcard" href="' + productUrl(p) + '">' +
-      (off ? '<span class="k360-pcard__off">خصم ' + off + "%</span>" : "") +
-      '<span class="k360-pcard__img"><img src="' + IMG + esc(p.im) + '" alt="' + esc(p.b + " " + p.m) + '" loading="lazy"></span>' +
-      '<span class="k360-pcard__brand">' + esc(p.b) + (p.c ? " · " + esc(p.c) : "") + (p.y ? " · " + p.y : "") + "</span>" +
-      '<b class="k360-pcard__name">' + esc(p.m) + "</b>" +
-      '<span class="k360-pcard__size">' + sizeOf(p) + "</span>" +
-      '<span class="k360-pcard__price"><b>' + money(price(p)) + "</b>" + (off ? "<s>" + money(p.pr) + "</s>" : "") + "</span></a>";
-  }
+  var LOGOS = {};
+  function card(p) { return siteCard(p, LOGOS); }
   function grid(list, limit) {
     if (!list.length) return '<p class="k360-empty">ما لقينا إطارات بهذا الاختيار. جرّب مقاس أو ماركة ثانية.</p>';
-    return '<div class="k360-grid">' + list.slice(0, limit || list.length).map(card).join("") + "</div>";
+    return '<div class="grid k360-grid">' + list.slice(0, limit || list.length).map(card).join("") + "</div>";
   }
   function fail(el) { el.innerHTML = '<p class="k360-empty">تعذّر تحميل البيانات. <a href="' + base() + '">حدّث الصفحة</a></p>'; }
 
@@ -363,24 +355,40 @@
   /* ---------- product page: package table ---------- */
   function initPackages() {
     var cfg = window.salla && salla.config;
-    if (!cfg || cfg.get("page.slug") !== "product.single" || document.querySelector(".k360-pkg")) return;
+    if (!cfg || cfg.get("page.slug") !== "product.single" || document.querySelector(".k360-pd")) return;
     var id = cfg.get("page.id");
-    var anchor = document.querySelector("form.product-form .sticky-product-bar") || document.querySelector("salla-add-product-button");
-    if (!id || !anchor) return;
-    load("products.json").then(function (d) {
-      var p = d.filter(function (x) { return x.i === id; })[0]; if (!p) return;
-      var u = price(p), box = document.createElement("div");
-      box.className = "k360-pkg";
-      box.innerHTML = '<p class="k360-pkg__t">اختر باقتك</p><table><thead><tr><th>الباقة</th><th>سعر الكفر</th><th>الإجمالي</th><th></th></tr></thead><tbody>' +
-        [[1, "كفر واحد"], [2, "باقة كفرين"], [4, "باقة 4 كفرات"]].map(function (r) {
-          return "<tr" + (r[0] === 4 ? ' class="is-hot"' : "") + "><td>" + r[1] + (r[0] === 4 ? " <i>مجموعة كاملة</i>" : "") + "</td><td>" + money(u) + "</td><td><b>" + money(u * r[0]) + '</b></td><td><button type="button" class="k360-pkg__add" data-pkg="' + r[0] + '">أضف</button></td></tr>';
-        }).join("") + '</tbody></table><p class="k360-hint">' + (p.g ? "ضمان " + p.g + " سنوات · " : "") + (p.c ? "صنع " + esc(p.c) + (p.y ? " " + p.y : "") : "") + "</p>";
-      box.addEventListener("click", function (e) {
-        var b = e.target.closest("[data-pkg]"); if (!b) return;
-        addToCart(id, +b.getAttribute("data-pkg"), b);
-      });
-      if (document.querySelector(".k360-pkg")) return;
-      anchor.parentNode.insertBefore(box, anchor);
+    var form = document.querySelector("form.product-form"), qty = document.querySelector('input[name="quantity"]');
+    if (!id || !form || !qty) return;
+    Promise.all([load("products.json"), load("brands.json")]).then(function (res) {
+      var p = res[0].filter(function (x) { return x.i === id; })[0]; if (!p || document.querySelector(".k360-pd")) return;
+      var u = price(p), off = p.s && p.s < p.pr, box = document.createElement("div");
+      box.className = "k360-site k360-pd";
+      function pk(n, title, sub, hot) {
+        return '<label class="pd-pkg' + (hot ? " hot" : "") + '"><input type="radio" name="k360pkg" value="' + n + '">' + (hot ? "<i>الأكثر مبيعاً</i>" : "") +
+          '<span class="pkg-ic">' + (n === 2 ? "&#x1F6DE;&#x1F6DE;" : "&#x1F6DE;&#x1F6DE;&#x1F6DE;&#x1F6DE;") + "</span><span><b>" + title + "</b><small>" + sub + "</small></span><em>" + money(u * n) +
+          (off ? '<s style="display:block;font-size:12px;color:var(--muted);font-weight:400">' + money(p.pr * n) + "</s>" : "") + "</em></label>";
+      }
+      box.innerHTML =
+        '<div class="pd-top"><span class="tag">' + esc(TYPES[p.t] || "") + '</span><span class="tag green">&#x1F6E1;&#xFE0F; الضمان: ' + (p.g ? p.g + " سنوات" : "الوكيل") + "</span>" + (p.f ? '<span class="tag">Run Flat</span>' : "") + "</div>" +
+        '<div class="kv"><div><small>الموديل</small><b>' + esc(p.m) + "</b></div><div><small>سنة الإنتاج</small><b>" + (p.y ? "تاريخ " + p.y : "-") + "</b></div><div><small>مصنوع في</small><b>" + esc(p.c || "-") + "</b></div><div><small>المقاس</small><b dir=\"ltr\">" + sizeOf(p) + "</b></div></div>" +
+        '<div class="pd-pkgs"><b>اختر الباقة</b><div class="pd-pkg-grid">' + pk(2, "باقة الكفرين", "للأمام أو الخلف", false) + pk(4, "باقة الـ 4 كفرات", "طقم كامل للسيارة", true) + "</div>" +
+        '<div class="buy-row" style="margin-top:12px"><div class="total">الإجمالي: <b data-total></b></div></div></div>' +
+        '<div class="ship-box"><div>&#x1F69A; <b>الشحن والتوصيل</b><small>توصيل لجميع مدن المملكة</small></div><div>&#x1F527; <b>التركيب مع الترصيص عند البيت</b><small>فني متنقل يجيك لموقعك</small></div><div>&#x1F468;&#x200D;&#x1F527; <b>دعم الخبراء 24 ساعة</b><small>طوال أيام الأسبوع</small></div></div>';
+      var radios = [].slice.call(box.querySelectorAll('input[name="k360pkg"]')), tot = box.querySelector("[data-total]");
+      function paint() {
+        var n = Math.max(1, +qty.value || 1);
+        tot.textContent = money(u * n);
+        radios.forEach(function (r) { r.checked = +r.value === n; });
+      }
+      function setQty(n) {
+        qty.value = n; ["input", "change", "keyup"].forEach(function (ev) { qty.dispatchEvent(new Event(ev, { bubbles: true })); });
+        paint();
+      }
+      radios.forEach(function (r) { r.addEventListener("change", function () { setQty(+r.value); }); });
+      qty.addEventListener("input", paint); qty.addEventListener("change", paint);
+      var qi = document.querySelector("salla-quantity-input"); if (qi) { qi.addEventListener("click", function () { setTimeout(paint, 120); }); }
+      form.parentNode.insertBefore(box, form);
+      paint();
     }).catch(function () {});
   }
 
@@ -498,8 +506,7 @@
         st.shown = 24; render();
       });
       body.addEventListener("click", function (e) {
-        var a = e.target.closest("[data-add]"); if (a) { addToCart(+a.getAttribute("data-add"), +a.getAttribute("data-q"), a); return; }
-        if (e.target.closest("[data-more]")) { st.shown += 24; render(); }
+                if (e.target.closest("[data-more]")) { st.shown += 24; render(); }
         if (e.target.closest("[data-reset]")) { st = { w: "", p: "", r: "", q: "", col: "", sort: "", shown: 24, t: {}, b: {}, m: {}, c: {}, y: {} }; render(); }
         if (e.target.closest("[data-tgl]")) { st.open = !st.open; render(); }
       });
@@ -564,10 +571,6 @@
         '<div class="pkgs">' +
         '<button type="button" class="pkg" data-add="' + id + '" data-q="2"><span class="pkg-t">باقة كفرين</span><b>' + money(u * 2) + "</b>" + (off ? "<s>" + money(p.pr * 2) + "</s>" : "") + "<small>&#x1F6D2; أضف</small></button>" +
         '<button type="button" class="pkg hot" data-add="' + id + '" data-q="4"><i>مجموعة كاملة</i><span class="pkg-t">باقة 4 كفرات</span><b>' + money(u * 4) + "</b>" + (off ? "<s>" + money(p.pr * 4) + "</s>" : "") + "<small>&#x1F6D2; أضف</small></button></div>";
-      box.addEventListener("click", function (e) {
-        var b = e.target.closest("[data-add]"); if (!b) return;
-        e.preventDefault(); e.stopPropagation(); addToCart(+b.getAttribute("data-add"), +b.getAttribute("data-q"), b);
-      });
       content.appendChild(box);
       cardEl.classList.add("k360-has-pk");
     });
@@ -589,7 +592,13 @@
   var queued = false;
   function queue() { if (queued) return; queued = true; setTimeout(function () { queued = false; scan(); }, 150); }
   function start() {
-    scan();
+    document.addEventListener("click", function (e) {
+      var b = e.target.closest && e.target.closest("[data-add]"); if (!b) return;
+      e.preventDefault(); e.stopPropagation();
+      addToCart(+b.getAttribute("data-add"), +b.getAttribute("data-q"), b);
+    }, true);
+    load("brands.json").then(function (bs) { bs.forEach(function (x) { if (x.logo) LOGOS[x.i] = x.logo; }); }).catch(function () {}).then(scan);
+
     new MutationObserver(queue).observe(document.body, { childList: true, subtree: true });
     if (location.hash === "#k360-shop") setTimeout(function () { var s = document.getElementById("k360-shop"); if (s) s.scrollIntoView(); }, 600);
   }
