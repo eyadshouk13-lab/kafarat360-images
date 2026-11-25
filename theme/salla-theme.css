@@ -230,7 +230,7 @@ body.theme-raed { background-color: var(--k-bg); color: var(--k-ink); }
 .k360-shop__filters .k360-btn { margin-top: 10px; width: 100%; cursor: pointer; }
 
 /* product page: package table */
-.k360-pkg { margin: 14px 0; border: 1px solid var(--k-line); border-radius: var(--k-r); padding: 12px; background: #fff; }
+.k360-pkg { margin: 0 0 12px; border: 1px solid var(--k-line); border-radius: var(--k-r); padding: 14px 16px; background: #fff; }
 .k360-pkg__t { font-weight: 800; margin-bottom: 8px; }
 .k360-pkg table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .k360-pkg th, .k360-pkg td { padding: 8px 6px; border-bottom: 1px solid var(--k-line); text-align: right; }

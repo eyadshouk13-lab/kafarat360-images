@@ -295,7 +295,7 @@
     var cfg = window.salla && salla.config;
     if (!cfg || cfg.get("page.slug") !== "product.single" || document.querySelector(".k360-pkg")) return;
     var id = cfg.get("page.id");
-    var anchor = document.querySelector(".price-wrapper") || document.querySelector("salla-add-product-button");
+    var anchor = document.querySelector("form.product-form .sticky-product-bar") || document.querySelector("salla-add-product-button");
     if (!id || !anchor) return;
     load("products.json").then(function (d) {
       var p = d.filter(function (x) { return x.i === id; })[0]; if (!p) return;
@@ -305,7 +305,8 @@
         [[1, "كفر واحد"], [2, "كفرين"], [4, "4 كفرات"]].map(function (r) {
           return "<tr><td>" + r[1] + "</td><td>" + money(u) + "</td><td><b>" + money(u * r[0]) + "</b></td></tr>";
         }).join("") + '</tbody></table><p class="k360-hint">اختر العدد من خانة الكمية. ' + (p.g ? "ضمان " + p.g + " سنوات · " : "") + (p.c ? "صنع " + esc(p.c) + (p.y ? " " + p.y : "") : "") + "</p>";
-      anchor.parentNode.insertBefore(box, anchor.nextSibling);
+      if (document.querySelector(".k360-pkg")) return;
+      anchor.parentNode.insertBefore(box, anchor);
     }).catch(function () {});
   }
 
