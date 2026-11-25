@@ -656,3 +656,11 @@ body.theme-raed { background-color: var(--k-bg); color: var(--k-ink); }
 .k360-pd .buy-row .total { font-weight:700; }
 .k360-pd .buy-row .total b { font-size:20px; color:#111; }
 .k360-pkg { display:none !important; }
+.k360-pd .pd-pkg-grid { grid-template-columns: 1fr; gap: 14px; }
+.k360-pd .pd-pkg { padding: 14px 12px; }
+.k360-pd .pd-pkg .pkg-ic { white-space: nowrap; flex: 0 0 auto; }
+.k360-pd .pd-pkg > span:not(.pkg-ic) { min-width: 0; }
+.k360-pd .pd-pkg b { white-space: nowrap; }
+.k360-pd .pd-pkg em { white-space: nowrap; text-align: left; }
+.k360-pd .kv { grid-template-columns: repeat(2, 1fr); }
+.k360-pd .pd-pkg.hot { box-shadow: 0 6px 18px rgba(123,63,228,.22); }
