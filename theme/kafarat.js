@@ -266,7 +266,7 @@
   }
 
   /* ---------- brand strip (website markup) ---------- */
-  var LOGO = "https://raw.githubusercontent.com/eyadshouk13-lab/kafarat360-images/e8808d4a95b134083d4656f3c8dcad5a39445f5a/";
+  var LOGO = "https://raw.githubusercontent.com/eyadshouk13-lab/kafarat360-images/e7d5890b4f0ed9398aad9d683ab846a3a5804b2c/";
   function brandUrl(b) { return base().replace(/\/?$/, "/") + "b/brand-" + b.i; }
   function initBrands(el) {
     load("brands.json").then(function (bs) {
