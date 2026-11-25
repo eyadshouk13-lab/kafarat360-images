@@ -1,0 +1,191 @@
+/* KAFARAT 360 - Salla theme Raed Twig - WHITE - mobile-first, RTL.
+   Tajawal comes from the store identity. One file; every custom section has its own k360- class.
+   Editor note: never start a selector list with the word input right after a bracket,
+   Salla's file-type check would then serve this file as Algol 68 and browsers would ignore it. */
+
+/* ================= 1) variables ================= */
+:root {
+  --k-brand: #7B3FE4;
+  --k-brand-d: #5E2BB8;
+  --k-brand-l: #9461F0;
+  --k-brand-xd: #3A1A75;
+  --k-soft: #F1EAFE;
+  --k-ink: #111111;
+  --k-ink2: #2B2B2B;
+  --k-muted: #6B6B6B;
+  --k-line: #E5E7EB;
+  --k-bg: #FAFAFA;
+  --k-card: #FFFFFF;
+  --k-sand: #E9E4DA;
+  --k-r: 14px;
+  --k-r-sm: 10px;
+  --k-sh: 0 4px 18px rgba(15, 23, 32, .07);
+  --k-sh-hover: 0 10px 26px rgba(15, 23, 32, .12);
+  --k-glow: 0 6px 16px rgba(123, 63, 228, .30);
+
+  --color-primary: #7B3FE4;
+  --color-primary-dark: #5E2BB8;
+  --color-primary-light: #F1EAFE;
+  --color-primary-reverse: #FFFFFF;
+}
+
+/* ================= 2) base ================= */
+body.theme-raed { background-color: var(--k-bg); color: var(--k-ink); }
+.theme-raed h1, .theme-raed h2, .theme-raed h3 { font-weight: 800; }
+.theme-raed a:hover { color: var(--k-brand-d); }
+
+/* ================= 3) header ================= */
+.theme-raed .store-header { border-bottom: 3px solid var(--k-soft); }
+.theme-raed .main-menu a:hover { color: var(--k-brand); }
+
+/* ================= 4) section titles ================= */
+.theme-raed .s-block__title h2 { font-size: 22px; font-weight: 800; color: var(--k-ink); }
+.theme-raed .s-block__title a { color: var(--k-brand); font-weight: 700; }
+
+/* ================= 5) buttons ================= */
+.theme-raed .s-button-primary { background-color: var(--k-brand); border-color: var(--k-brand); color: #fff; border-radius: var(--k-r-sm); box-shadow: var(--k-glow); }
+.theme-raed .s-button-primary:hover { background-color: var(--k-brand-d); border-color: var(--k-brand-d); }
+.theme-raed .s-button-primary-outline { color: var(--k-brand); border-color: var(--k-brand); border-radius: var(--k-r-sm); }
+
+/* ================= 6) product card ================= */
+.theme-raed .s-product-card-entry { background-color: var(--k-card); border: 1px solid var(--k-line); border-radius: var(--k-r); box-shadow: var(--k-sh); transition: transform .2s, box-shadow .2s; }
+.theme-raed .s-product-card-entry:hover { transform: translateY(-3px); box-shadow: var(--k-sh-hover); }
+.theme-raed .s-product-card-content-title a { color: var(--k-ink); font-weight: 700; }
+.theme-raed .s-product-card-promotion-title { background-color: var(--k-brand); color: #fff; border-radius: 20px; font-weight: 700; }
+
+/* ================= 7) shared k360 bits ================= */
+.k360-wrap { max-width: 1280px; margin: 0 auto; padding: 0 16px; }
+.k360-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; border-radius: var(--k-r-sm); font-weight: 700; font-size: 15px; line-height: 1.2; text-decoration: none; transition: background-color .2s, color .2s; }
+.k360-btn--primary { background: var(--k-brand); color: #fff; box-shadow: var(--k-glow); }
+.k360-btn--primary:hover { background: var(--k-brand-d); color: #fff; }
+.k360-btn--ghost { background: transparent; color: #fff; border: 1px solid #fff; }
+.k360-btn--ghost:hover { background: #fff; color: var(--k-ink); }
+.k360-title { font-size: 22px; font-weight: 800; color: var(--k-ink); margin-bottom: 14px; }
+.k360-title span { color: var(--k-brand-d); }
+.k360-pay { display: inline-flex; gap: 6px; }
+.k360-pay b { display: inline-block; font-family: Arial, sans-serif; font-weight: 900; font-size: 11px; line-height: 1; padding: 6px 9px; border-radius: 6px; letter-spacing: -.2px; }
+.k360-pay .k360-pay__tabby { background: #3BFFC1; color: #000; }
+.k360-pay .k360-pay__tamara { background: linear-gradient(90deg, #F5B5A2, #F7E3A6, #C9B6F2, #9EC3F2); color: #000; }
+
+/* ================= 8) hero video (k360-hero) ================= */
+.k360-hero { position: relative; height: 88vh; min-height: 520px; overflow: hidden; background: #111; color: #fff; }
+.k360-hero__media { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.k360-hero__media iframe { position: absolute; top: 50%; left: 50%; width: max(100%, 177.78vh); height: max(100%, 56.25vw); transform: translate(-50%, -50%); border: 0; }
+.k360-hero__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.15) 0%, rgba(0,0,0,.35) 45%, rgba(0,0,0,.78) 100%); }
+.k360-hero__logo { position: absolute; z-index: 3; top: 16px; left: 12px; height: 54px; width: auto; }
+.k360-hero__txt { position: absolute; z-index: 3; left: 16px; right: 16px; bottom: 80px; }
+.k360-hero__tag { display: inline-block; background: var(--k-brand); color: #fff; padding: 4px 14px; font-weight: 700; font-size: 14px; margin-bottom: 12px; }
+.k360-hero__txt h1 { font-size: 26px; line-height: 1.25; color: #fff; font-weight: 800; }
+.k360-hero__txt p { font-size: 14px; color: var(--k-sand); margin: 10px 0 18px; line-height: 1.6; }
+.k360-hero__btns { display: flex; gap: 10px; }
+.k360-hero__btns .k360-btn { flex: 1; padding: 11px 10px; font-size: 14px; }
+
+/* ================= 9) banner slider (k360-banners) ================= */
+.k360-banners { margin-top: 20px; }
+.k360-banners__track { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 0 16px 6px; }
+.k360-banners__track::-webkit-scrollbar { display: none; }
+.k360-bnr { position: relative; flex: 0 0 92%; scroll-snap-align: center; aspect-ratio: 16 / 11; border-radius: var(--k-r); overflow: hidden; color: #fff; text-decoration: none; container-type: inline-size; display: flex; align-items: center; gap: 2cqw; padding: 6cqw 5cqw; }
+.k360-bnr:hover { color: #fff; }
+.k360-bnr::after { content: ""; position: absolute; inset: 2cqw; border: 1px solid rgba(255,255,255,.35); border-radius: 1.6cqw; pointer-events: none; }
+.k360-bnr__txt { position: relative; z-index: 2; flex: 1.35; min-width: 0; }
+.k360-bnr__vis { position: relative; z-index: 1; flex: 1; display: grid; place-items: center; align-self: stretch; }
+.k360-bnr__logo { position: absolute; z-index: 3; top: 3.5cqw; left: 4cqw; height: 9cqw; width: auto; }
+.k360-bnr h2 { font-size: 8.4cqw; line-height: 1.15; font-weight: 800; color: inherit; letter-spacing: -.02em; }
+.k360-bnr p { font-size: 3.4cqw; line-height: 1.5; margin-top: 2cqw; opacity: .92; }
+.k360-bnr mark { background: none; color: inherit; border-bottom: .5cqw solid currentColor; }
+.k360-bnr__tire { width: 100%; max-width: 40cqw; aspect-ratio: 1; object-fit: contain; background: #fff; border-radius: 50%; padding: 3cqw; border: .9cqw solid var(--k-brand); box-shadow: 0 0 0 1.6cqw rgba(123,63,228,.18), 0 2cqw 4cqw rgba(0,0,0,.35); }
+.k360-bnr .k360-pay { margin-top: 3cqw; }
+.k360-bnr .k360-pay b { font-size: 2.8cqw; padding: 1.4cqw 2cqw; border-radius: 1.2cqw; }
+
+/* slide: mobile service van */
+.k360-bnr--van { background: radial-gradient(ellipse at 25% 75%, #2b2b2b 0, #111 55%, #000 100%); }
+.k360-bnr--van .k360-bnr__tag { display: inline-block; background: #6B2D3A; font-size: 3cqw; font-weight: 700; padding: .8cqw 3cqw; border-radius: 4cqw; margin-bottom: 2cqw; }
+.k360-bnr--van .k360-bnr__svcs { display: flex; flex-wrap: wrap; gap: 1.6cqw; margin-top: 2.6cqw; }
+.k360-bnr--van .k360-bnr__svcs span { background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.4); border-radius: 4cqw; padding: 1cqw 2.6cqw; font-size: 2.9cqw; font-weight: 700; }
+.k360-bnr--van .k360-bnr__van { width: 100%; height: auto; filter: drop-shadow(0 1.5cqw 2cqw rgba(0,0,0,.35)); }
+
+/* slide: new customer */
+.k360-bnr--new { background: radial-gradient(ellipse at 20% 50%, #8E4352 0, #6B2D3A 55%, #3A1820 100%); }
+.k360-bnr--new .k360-bnr__strip { display: inline-block; font-size: 3.6cqw; font-weight: 700; margin-top: 2cqw; padding-bottom: 1cqw; border-bottom: .4cqw solid var(--k-sand); }
+.k360-bnr--new .k360-bnr__code { display: flex; align-items: center; gap: 2cqw; margin-top: 2.6cqw; font-size: 3.6cqw; font-weight: 800; }
+.k360-bnr--new .k360-bnr__code b { border: .35cqw solid var(--k-sand); border-radius: 1.2cqw; padding: .6cqw 3cqw; letter-spacing: .5cqw; font-size: 4.2cqw; }
+.k360-bnr--new .k360-bnr__sub { margin-top: 2.4cqw; font-size: 3.2cqw; border-right: .5cqw solid var(--k-sand); padding-right: 2cqw; }
+.k360-bnr--new .k360-bnr__burst { position: absolute; z-index: 3; top: 6cqw; left: 44%; width: 17cqw; height: 17cqw; border-radius: 50%; display: grid; place-items: center; border: .4cqw solid #fff; box-shadow: inset 0 0 0 1.2cqw #6B2D3A, inset 0 0 0 1.5cqw #fff; font-size: 4cqw; font-weight: 900; }
+
+/* slide: warranty (light) */
+.k360-bnr--warranty { background: radial-gradient(ellipse at 20% 50%, #FFFFFF 0, #FAFAFA 55%, var(--k-sand) 100%); color: var(--k-brand-d); }
+.k360-bnr--warranty:hover { color: var(--k-brand-d); }
+.k360-bnr--warranty::after { border-color: rgba(123,63,228,.45); }
+.k360-bnr--warranty .k360-bnr__pill { display: inline-block; margin-top: 3cqw; background: var(--k-brand); color: #fff; font-size: 3.8cqw; font-weight: 800; padding: 1cqw 5cqw; border-radius: 6cqw; }
+.k360-bnr--warranty .k360-bnr__shield { position: absolute; z-index: 3; bottom: 6cqw; left: 40%; width: 13cqw; height: 13cqw; border-radius: 50%; display: grid; place-items: center; border: .4cqw solid var(--k-brand); background: #fff; color: var(--k-brand-d); font-size: 6cqw; font-weight: 900; }
+
+/* slide: installments */
+.k360-bnr--bnpl { background: radial-gradient(ellipse at 20% 50%, #8E4352 0, #6B2D3A 55%, #3A1820 100%); }
+.k360-bnr--bnpl .k360-bnr__12 { width: 34cqw; height: 34cqw; border-radius: 50%; display: grid; place-content: center; text-align: center; background: radial-gradient(circle, #3A1820 0, #111 70%); border: 3cqw solid #1a1a1a; box-shadow: inset 0 0 0 .8cqw var(--k-brand), 0 2cqw 4cqw rgba(0,0,0,.45); }
+.k360-bnr--bnpl .k360-bnr__12 b { font-size: 13cqw; line-height: 1; font-weight: 900; color: #fff; }
+.k360-bnr--bnpl .k360-bnr__12 span { font-size: 3cqw; font-weight: 800; color: var(--k-sand); }
+
+/* slide: size finder (light) */
+.k360-bnr--finder { background: linear-gradient(120deg, #FAFAFA 0%, var(--k-sand) 100%); color: var(--k-brand-d); }
+.k360-bnr--finder:hover { color: var(--k-brand-d); }
+.k360-bnr--finder::after { border-color: rgba(123,63,228,.45); }
+.k360-bnr--finder .k360-bnr__ways { display: flex; flex-direction: column; gap: 1.4cqw; margin-top: 2.6cqw; }
+.k360-bnr--finder .k360-bnr__ways span { align-self: flex-start; background: #fff; border: 1px solid var(--k-sand); border-radius: 1.4cqw; padding: .9cqw 2.4cqw; font-size: 3.2cqw; font-weight: 700; color: var(--k-ink2); }
+.k360-bnr--finder .k360-bnr__ways b { color: var(--k-brand-d); }
+.k360-bnr--finder .k360-bnr__diag { position: relative; width: 100%; max-width: 40cqw; }
+.k360-bnr--finder .k360-bnr__diag .k360-bnr__tire { max-width: none; }
+.k360-bnr--finder .k360-bnr__diag i { position: absolute; font-style: normal; background: #fff; border: 1px solid var(--k-sand); border-radius: 1.4cqw; padding: .5cqw 1.6cqw; font-size: 2.8cqw; font-weight: 700; color: var(--k-ink2); white-space: nowrap; }
+.k360-bnr--finder .k360-bnr__diag i b { color: var(--k-brand); font-size: 3.6cqw; }
+.k360-bnr--finder .k360-bnr__diag .d1 { top: 0; right: -6cqw; }
+.k360-bnr--finder .k360-bnr__diag .d2 { top: 42%; left: -5cqw; }
+.k360-bnr--finder .k360-bnr__diag .d3 { bottom: 0; right: -6cqw; }
+
+/* ================= 10) install video (k360-video) ================= */
+.k360-video { margin-top: 32px; }
+.k360-video__box { border-radius: var(--k-r); overflow: hidden; background: #111; aspect-ratio: 16 / 9; box-shadow: var(--k-sh); }
+.k360-video__box video { display: block; width: 100%; height: 100%; object-fit: cover; background: #111; }
+
+/* ================= 11) wider screens ================= */
+@media (min-width: 768px) {
+  .theme-raed .s-block__title h2, .k360-title { font-size: 26px; }
+  .k360-hero { height: 100vh; max-height: 860px; }
+  .k360-hero__shade { background: linear-gradient(90deg, rgba(0,0,0,.05) 0%, rgba(0,0,0,.55) 65%, rgba(0,0,0,.7) 100%); }
+  .k360-hero__logo { top: auto; bottom: 28px; left: 24px; height: 70px; }
+  .k360-hero__txt { left: auto; bottom: auto; top: 50%; transform: translateY(-50%); right: max(16px, calc((100vw - 1240px) / 2 + 16px)); max-width: 560px; }
+  .k360-hero__txt h1 { font-size: clamp(32px, 4.4vw, 54px); }
+  .k360-hero__txt p { font-size: clamp(15px, 1.4vw, 18px); margin: 12px 0 22px; }
+  .k360-hero__btns .k360-btn { flex: 0 0 auto; padding: 12px 22px; font-size: 15px; }
+  .k360-banners { margin-top: 32px; }
+  .k360-banners__track { max-width: 1280px; margin: 0 auto; gap: 16px; }
+  .k360-bnr { flex-basis: 100%; aspect-ratio: 2.5 / 1; padding: 3cqw 4cqw; }
+  .k360-bnr h2 { font-size: 5.2cqw; }
+  .k360-bnr p { font-size: 1.8cqw; margin-top: 1.2cqw; }
+  .k360-bnr::after { inset: 1.4cqw; border-radius: 1cqw; }
+  .k360-bnr__logo { height: 6.5cqw; top: 2.4cqw; left: 2.6cqw; }
+  .k360-bnr__tire { max-width: 26cqw; padding: 1.8cqw; border-width: .5cqw; box-shadow: 0 0 0 1cqw rgba(123,63,228,.18), 0 1.5cqw 3cqw rgba(0,0,0,.35); }
+  .k360-bnr .k360-pay { margin-top: 1.8cqw; }
+  .k360-bnr .k360-pay b { font-size: 1.5cqw; padding: .8cqw 1.2cqw; border-radius: .7cqw; }
+  .k360-bnr--van .k360-bnr__tag { font-size: 1.6cqw; padding: .4cqw 1.6cqw; margin-bottom: 1cqw; }
+  .k360-bnr--van .k360-bnr__svcs span { font-size: 1.6cqw; padding: .5cqw 1.6cqw; }
+  .k360-bnr--van .k360-bnr__svcs { gap: 1cqw; margin-top: 1.4cqw; }
+  .k360-bnr--new .k360-bnr__strip { font-size: 2.2cqw; margin-top: 1cqw; }
+  .k360-bnr--new .k360-bnr__code { font-size: 2.2cqw; margin-top: 1.4cqw; }
+  .k360-bnr--new .k360-bnr__code b { font-size: 2.6cqw; }
+  .k360-bnr--new .k360-bnr__sub { font-size: 1.9cqw; margin-top: 1.4cqw; }
+  .k360-bnr--new .k360-bnr__burst { width: 12cqw; height: 12cqw; font-size: 2.6cqw; top: 5cqw; }
+  .k360-bnr--warranty .k360-bnr__pill { font-size: 2.4cqw; margin-top: 1.6cqw; padding: .6cqw 3cqw; }
+  .k360-bnr--warranty .k360-bnr__shield { width: 9cqw; height: 9cqw; font-size: 4cqw; bottom: 4cqw; }
+  .k360-bnr--bnpl .k360-bnr__12 { width: 24cqw; height: 24cqw; border-width: 2.2cqw; }
+  .k360-bnr--bnpl .k360-bnr__12 b { font-size: 9cqw; }
+  .k360-bnr--bnpl .k360-bnr__12 span { font-size: 2cqw; }
+  .k360-bnr--finder .k360-bnr__ways { gap: .8cqw; margin-top: 1.4cqw; }
+  .k360-bnr--finder .k360-bnr__ways span { font-size: 2cqw; padding: .5cqw 1.5cqw; }
+  .k360-bnr--finder .k360-bnr__diag { max-width: 26cqw; }
+  .k360-bnr--finder .k360-bnr__diag i { font-size: 1.7cqw; }
+  .k360-bnr--finder .k360-bnr__diag i b { font-size: 2.3cqw; }
+  .k360-video { margin-top: 48px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-raed .s-product-card-entry { transition: none; }
+}
