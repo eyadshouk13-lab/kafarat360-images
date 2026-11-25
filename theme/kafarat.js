@@ -11,7 +11,7 @@
 (function () {
   "use strict";
 
-  var DATA = "https://cdn.jsdelivr.net/gh/eyadshouk13-lab/kafarat360-images@1a604540a7c12a6ef1a2ac91573ce5e4cb6ca913/data/";
+  var DATA = "https://cdn.jsdelivr.net/gh/eyadshouk13-lab/kafarat360-images@e8808d4a95b134083d4656f3c8dcad5a39445f5a/data/";
   var IMG = "https://raw.githubusercontent.com/eyadshouk13-lab/kafarat360-images/d5004e9/";
   var TYPES = { car: "سيارات ركاب", suv: "SUV ودفع رباعي", truck: "نقل خفيف" };
   var COLLECTIONS = [
@@ -134,94 +134,163 @@
     load("products.json").then(function (d) { shop.data = d; shopRender(); }).catch(function () { fail(el); });
   }
 
-  /* ---------- finder ---------- */
+  /* ---------- finder (website markup: tabs + tire guide + 3 steps) ---------- */
+  var TIRE_SVG = "<svg viewBox=\"0 14 340 352\"><defs><radialGradient id=\"tgTire\" cx=\"50%\" cy=\"100%\" r=\"75%\"><stop offset=\".55\" stop-color=\"#2a2a2a\"/><stop offset=\".8\" stop-color=\"#151515\"/><stop offset=\"1\" stop-color=\"#050505\"/></radialGradient><linearGradient id=\"tgShine\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0\" stop-color=\"#fff\" stop-opacity=\"0\"/><stop offset=\".5\" stop-color=\"#fff\" stop-opacity=\".12\"/><stop offset=\"1\" stop-color=\"#fff\" stop-opacity=\"0\"/></linearGradient><radialGradient id=\"tgRim\" cx=\"35%\" cy=\"25%\" r=\"85%\"><stop offset=\"0\" stop-color=\"#ffffff\"/><stop offset=\".5\" stop-color=\"#c3c9cf\"/><stop offset=\"1\" stop-color=\"#7c858e\"/></radialGradient><linearGradient id=\"tgGloss\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#fff\" stop-opacity=\".35\"/><stop offset=\".35\" stop-color=\"#fff\" stop-opacity=\"0\"/></linearGradient><linearGradient id=\"tgSpoke\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0\" stop-color=\"#8d969e\"/><stop offset=\".5\" stop-color=\"#f4f6f8\"/><stop offset=\"1\" stop-color=\"#8d969e\"/></linearGradient><path id=\"tg-arc\" d=\"M42,190 A128,128 0 0,1 298,190\"/><path id=\"tg-arc2\" d=\"M54,190 A116,116 0 0,1 286,190\"/><linearGradient id=\"tgEmb\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"#8a8f94\"/><stop offset=\"1\" stop-color=\"#4a4f54\"/></linearGradient></defs><circle cx=\"170\" cy=\"190\" r=\"170\" fill=\"url(#tgTire)\"/><g stroke=\"#0a0a0a\" stroke-width=\"5\" stroke-linecap=\"round\"><line x1=\"338.0\" y1=\"190.0\" x2=\"322.0\" y2=\"190.0\"/><line x1=\"337.6\" y1=\"201.7\" x2=\"321.6\" y2=\"200.6\"/><line x1=\"336.4\" y1=\"213.4\" x2=\"320.5\" y2=\"211.2\"/><line x1=\"334.3\" y1=\"224.9\" x2=\"318.7\" y2=\"221.6\"/><line x1=\"331.5\" y1=\"236.3\" x2=\"316.1\" y2=\"231.9\"/><line x1=\"327.9\" y1=\"247.5\" x2=\"312.8\" y2=\"242.0\"/><line x1=\"323.5\" y1=\"258.3\" x2=\"308.9\" y2=\"251.8\"/><line x1=\"318.3\" y1=\"268.9\" x2=\"304.2\" y2=\"261.4\"/><line x1=\"312.5\" y1=\"279.0\" x2=\"298.9\" y2=\"270.5\"/><line x1=\"305.9\" y1=\"288.7\" x2=\"293.0\" y2=\"279.3\"/><line x1=\"298.7\" y1=\"298.0\" x2=\"286.4\" y2=\"287.7\"/><line x1=\"290.8\" y1=\"306.7\" x2=\"279.3\" y2=\"295.6\"/><line x1=\"282.4\" y1=\"314.8\" x2=\"271.7\" y2=\"303.0\"/><line x1=\"273.4\" y1=\"322.4\" x2=\"263.6\" y2=\"309.8\"/><line x1=\"263.9\" y1=\"329.3\" x2=\"255.0\" y2=\"316.0\"/><line x1=\"254.0\" y1=\"335.5\" x2=\"246.0\" y2=\"321.6\"/><line x1=\"243.6\" y1=\"341.0\" x2=\"236.6\" y2=\"326.6\"/><line x1=\"232.9\" y1=\"345.8\" x2=\"226.9\" y2=\"330.9\"/><line x1=\"221.9\" y1=\"349.8\" x2=\"217.0\" y2=\"334.6\"/><line x1=\"210.6\" y1=\"353.0\" x2=\"206.8\" y2=\"337.5\"/><line x1=\"199.2\" y1=\"355.4\" x2=\"196.4\" y2=\"339.7\"/><line x1=\"187.6\" y1=\"357.1\" x2=\"185.9\" y2=\"341.2\"/><line x1=\"175.9\" y1=\"357.9\" x2=\"175.3\" y2=\"341.9\"/><line x1=\"164.1\" y1=\"357.9\" x2=\"164.7\" y2=\"341.9\"/><line x1=\"152.4\" y1=\"357.1\" x2=\"154.1\" y2=\"341.2\"/><line x1=\"140.8\" y1=\"355.4\" x2=\"143.6\" y2=\"339.7\"/><line x1=\"129.4\" y1=\"353.0\" x2=\"133.2\" y2=\"337.5\"/><line x1=\"118.1\" y1=\"349.8\" x2=\"123.0\" y2=\"334.6\"/><line x1=\"107.1\" y1=\"345.8\" x2=\"113.1\" y2=\"330.9\"/><line x1=\"96.4\" y1=\"341.0\" x2=\"103.4\" y2=\"326.6\"/><line x1=\"86.0\" y1=\"335.5\" x2=\"94.0\" y2=\"321.6\"/><line x1=\"76.1\" y1=\"329.3\" x2=\"85.0\" y2=\"316.0\"/><line x1=\"66.6\" y1=\"322.4\" x2=\"76.4\" y2=\"309.8\"/><line x1=\"57.6\" y1=\"314.8\" x2=\"68.3\" y2=\"303.0\"/><line x1=\"49.2\" y1=\"306.7\" x2=\"60.7\" y2=\"295.6\"/><line x1=\"41.3\" y1=\"298.0\" x2=\"53.6\" y2=\"287.7\"/><line x1=\"34.1\" y1=\"288.7\" x2=\"47.0\" y2=\"279.3\"/><line x1=\"27.5\" y1=\"279.0\" x2=\"41.1\" y2=\"270.5\"/><line x1=\"21.7\" y1=\"268.9\" x2=\"35.8\" y2=\"261.4\"/><line x1=\"16.5\" y1=\"258.3\" x2=\"31.1\" y2=\"251.8\"/><line x1=\"12.1\" y1=\"247.5\" x2=\"27.2\" y2=\"242.0\"/><line x1=\"8.5\" y1=\"236.3\" x2=\"23.9\" y2=\"231.9\"/><line x1=\"5.7\" y1=\"224.9\" x2=\"21.3\" y2=\"221.6\"/><line x1=\"3.6\" y1=\"213.4\" x2=\"19.5\" y2=\"211.2\"/><line x1=\"2.4\" y1=\"201.7\" x2=\"18.4\" y2=\"200.6\"/><line x1=\"2.0\" y1=\"190.0\" x2=\"18.0\" y2=\"190.0\"/><line x1=\"2.4\" y1=\"178.3\" x2=\"18.4\" y2=\"179.4\"/><line x1=\"3.6\" y1=\"166.6\" x2=\"19.5\" y2=\"168.8\"/><line x1=\"5.7\" y1=\"155.1\" x2=\"21.3\" y2=\"158.4\"/><line x1=\"8.5\" y1=\"143.7\" x2=\"23.9\" y2=\"148.1\"/><line x1=\"12.1\" y1=\"132.5\" x2=\"27.2\" y2=\"138.0\"/><line x1=\"16.5\" y1=\"121.7\" x2=\"31.1\" y2=\"128.2\"/><line x1=\"21.7\" y1=\"111.1\" x2=\"35.8\" y2=\"118.6\"/><line x1=\"27.5\" y1=\"101.0\" x2=\"41.1\" y2=\"109.5\"/><line x1=\"34.1\" y1=\"91.3\" x2=\"47.0\" y2=\"100.7\"/><line x1=\"41.3\" y1=\"82.0\" x2=\"53.6\" y2=\"92.3\"/><line x1=\"49.2\" y1=\"73.3\" x2=\"60.7\" y2=\"84.4\"/><line x1=\"57.6\" y1=\"65.2\" x2=\"68.3\" y2=\"77.0\"/><line x1=\"66.6\" y1=\"57.6\" x2=\"76.4\" y2=\"70.2\"/><line x1=\"76.1\" y1=\"50.7\" x2=\"85.0\" y2=\"64.0\"/><line x1=\"86.0\" y1=\"44.5\" x2=\"94.0\" y2=\"58.4\"/><line x1=\"96.4\" y1=\"39.0\" x2=\"103.4\" y2=\"53.4\"/><line x1=\"107.1\" y1=\"34.2\" x2=\"113.1\" y2=\"49.1\"/><line x1=\"118.1\" y1=\"30.2\" x2=\"123.0\" y2=\"45.4\"/><line x1=\"129.4\" y1=\"27.0\" x2=\"133.2\" y2=\"42.5\"/><line x1=\"140.8\" y1=\"24.6\" x2=\"143.6\" y2=\"40.3\"/><line x1=\"152.4\" y1=\"22.9\" x2=\"154.1\" y2=\"38.8\"/><line x1=\"164.1\" y1=\"22.1\" x2=\"164.7\" y2=\"38.1\"/><line x1=\"175.9\" y1=\"22.1\" x2=\"175.3\" y2=\"38.1\"/><line x1=\"187.6\" y1=\"22.9\" x2=\"185.9\" y2=\"38.8\"/><line x1=\"199.2\" y1=\"24.6\" x2=\"196.4\" y2=\"40.3\"/><line x1=\"210.6\" y1=\"27.0\" x2=\"206.8\" y2=\"42.5\"/><line x1=\"221.9\" y1=\"30.2\" x2=\"217.0\" y2=\"45.4\"/><line x1=\"232.9\" y1=\"34.2\" x2=\"226.9\" y2=\"49.1\"/><line x1=\"243.6\" y1=\"39.0\" x2=\"236.6\" y2=\"53.4\"/><line x1=\"254.0\" y1=\"44.5\" x2=\"246.0\" y2=\"58.4\"/><line x1=\"263.9\" y1=\"50.7\" x2=\"255.0\" y2=\"64.0\"/><line x1=\"273.4\" y1=\"57.6\" x2=\"263.6\" y2=\"70.2\"/><line x1=\"282.4\" y1=\"65.2\" x2=\"271.7\" y2=\"77.0\"/><line x1=\"290.8\" y1=\"73.3\" x2=\"279.3\" y2=\"84.4\"/><line x1=\"298.7\" y1=\"82.0\" x2=\"286.4\" y2=\"92.3\"/><line x1=\"305.9\" y1=\"91.3\" x2=\"293.0\" y2=\"100.7\"/><line x1=\"312.5\" y1=\"101.0\" x2=\"298.9\" y2=\"109.5\"/><line x1=\"318.3\" y1=\"111.1\" x2=\"304.2\" y2=\"118.6\"/><line x1=\"323.5\" y1=\"121.7\" x2=\"308.9\" y2=\"128.2\"/><line x1=\"327.9\" y1=\"132.5\" x2=\"312.8\" y2=\"138.0\"/><line x1=\"331.5\" y1=\"143.7\" x2=\"316.1\" y2=\"148.1\"/><line x1=\"334.3\" y1=\"155.1\" x2=\"318.7\" y2=\"158.4\"/><line x1=\"336.4\" y1=\"166.6\" x2=\"320.5\" y2=\"168.8\"/><line x1=\"337.6\" y1=\"178.3\" x2=\"321.6\" y2=\"179.4\"/></g><circle cx=\"170\" cy=\"190\" r=\"150\" fill=\"none\" stroke=\"#333\" stroke-width=\"1.5\"/><circle cx=\"170\" cy=\"190\" r=\"106\" fill=\"none\" stroke=\"#3a3a3a\" stroke-width=\"2\"/><path d=\"M5,160 A170,170 0 0,1 335,160\" fill=\"none\" stroke=\"url(#tgShine)\" stroke-width=\"16\"/><text direction=\"ltr\" unicode-bidi=\"bidi-override\" font-family=\"Arial Black,Arial\" font-weight=\"900\" font-size=\"24\" fill=\"#fff\" letter-spacing=\"2\"><textPath href=\"#tg-arc\" startOffset=\"50%\" text-anchor=\"middle\"><tspan id=\"tgW\">205</tspan>/<tspan id=\"tgH\">55</tspan> R<tspan id=\"tgR\">16</tspan></textPath></text><circle cx=\"170\" cy=\"190\" r=\"100\" fill=\"url(#tgRim)\"/><circle cx=\"170\" cy=\"190\" r=\"94\" fill=\"#1c1f22\"/><circle cx=\"170\" cy=\"190\" r=\"88\" fill=\"none\" stroke=\"#2c3035\" stroke-width=\"6\"/><g fill=\"url(#tgSpoke)\" stroke=\"#6b737b\" stroke-width=\"1\"><path d=\"M159,160 L150,104 Q170,96 190,104 L181,160 Z\" transform=\"rotate(0 170 190)\"/><path d=\"M159,160 L150,104 Q170,96 190,104 L181,160 Z\" transform=\"rotate(72 170 190)\"/><path d=\"M159,160 L150,104 Q170,96 190,104 L181,160 Z\" transform=\"rotate(144 170 190)\"/><path d=\"M159,160 L150,104 Q170,96 190,104 L181,160 Z\" transform=\"rotate(216 170 190)\"/><path d=\"M159,160 L150,104 Q170,96 190,104 L181,160 Z\" transform=\"rotate(288 170 190)\"/></g><circle cx=\"170\" cy=\"190\" r=\"97\" fill=\"none\" stroke=\"#d7dce0\" stroke-width=\"5\"/><circle cx=\"170\" cy=\"190\" r=\"99\" fill=\"none\" stroke=\"url(#tgGloss)\" stroke-width=\"4\"/><path d=\"M90,135 A97,97 0 0,1 190,94\" fill=\"none\" stroke=\"#fff\" stroke-opacity=\".25\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><circle cx=\"170\" cy=\"190\" r=\"45.9\" fill=\"#fff\" stroke=\"#d7dce0\" stroke-width=\"2\"/><circle cx=\"170\" cy=\"190\" r=\"44.3\" fill=\"none\" stroke=\"#7B3FE4\" stroke-width=\"3\"/><g stroke=\"#7B3FE4\" stroke-width=\"2.6\" stroke-linecap=\"round\"><line x1=\"170.0\" y1=\"148.2\" x2=\"170.0\" y2=\"154.7\"/><line x1=\"177.3\" y1=\"148.8\" x2=\"176.6\" y2=\"152.9\"/><line x1=\"184.3\" y1=\"150.7\" x2=\"182.9\" y2=\"154.6\"/><line x1=\"190.9\" y1=\"153.8\" x2=\"188.9\" y2=\"157.3\"/><line x1=\"196.9\" y1=\"158.0\" x2=\"194.2\" y2=\"161.1\"/><line x1=\"202.0\" y1=\"163.1\" x2=\"198.9\" y2=\"165.8\"/><line x1=\"206.2\" y1=\"169.1\" x2=\"202.7\" y2=\"171.1\"/><line x1=\"209.3\" y1=\"175.7\" x2=\"205.4\" y2=\"177.1\"/><line x1=\"211.2\" y1=\"182.7\" x2=\"207.1\" y2=\"183.4\"/><line x1=\"211.8\" y1=\"190.0\" x2=\"205.3\" y2=\"190.0\"/><line x1=\"211.2\" y1=\"197.3\" x2=\"207.1\" y2=\"196.6\"/><line x1=\"209.3\" y1=\"204.3\" x2=\"205.4\" y2=\"202.9\"/><line x1=\"206.2\" y1=\"210.9\" x2=\"202.7\" y2=\"208.9\"/><line x1=\"202.0\" y1=\"216.9\" x2=\"198.9\" y2=\"214.2\"/><line x1=\"196.9\" y1=\"222.0\" x2=\"194.2\" y2=\"218.9\"/><line x1=\"190.9\" y1=\"226.2\" x2=\"188.9\" y2=\"222.7\"/><line x1=\"184.3\" y1=\"229.3\" x2=\"182.9\" y2=\"225.4\"/><line x1=\"177.3\" y1=\"231.2\" x2=\"176.6\" y2=\"227.1\"/><line x1=\"170.0\" y1=\"231.8\" x2=\"170.0\" y2=\"225.3\"/><line x1=\"162.7\" y1=\"231.2\" x2=\"163.4\" y2=\"227.1\"/><line x1=\"155.7\" y1=\"229.3\" x2=\"157.1\" y2=\"225.4\"/><line x1=\"149.1\" y1=\"226.2\" x2=\"151.1\" y2=\"222.7\"/><line x1=\"143.1\" y1=\"222.0\" x2=\"145.8\" y2=\"218.9\"/><line x1=\"138.0\" y1=\"216.9\" x2=\"141.1\" y2=\"214.2\"/><line x1=\"133.8\" y1=\"210.9\" x2=\"137.3\" y2=\"208.9\"/><line x1=\"130.7\" y1=\"204.3\" x2=\"134.6\" y2=\"202.9\"/><line x1=\"128.8\" y1=\"197.3\" x2=\"132.9\" y2=\"196.6\"/><line x1=\"128.2\" y1=\"190.0\" x2=\"134.7\" y2=\"190.0\"/><line x1=\"128.8\" y1=\"182.7\" x2=\"132.9\" y2=\"183.4\"/><line x1=\"130.7\" y1=\"175.7\" x2=\"134.6\" y2=\"177.1\"/><line x1=\"133.8\" y1=\"169.1\" x2=\"137.3\" y2=\"171.1\"/><line x1=\"138.0\" y1=\"163.1\" x2=\"141.1\" y2=\"165.8\"/><line x1=\"143.1\" y1=\"158.0\" x2=\"145.8\" y2=\"161.1\"/><line x1=\"149.1\" y1=\"153.8\" x2=\"151.1\" y2=\"157.3\"/><line x1=\"155.7\" y1=\"150.7\" x2=\"157.1\" y2=\"154.6\"/><line x1=\"162.7\" y1=\"148.8\" x2=\"163.4\" y2=\"152.9\"/></g><circle cx=\"170\" cy=\"190\" r=\"29.5\" fill=\"#7B3FE4\"/><text x=\"170\" y=\"199\" text-anchor=\"middle\" direction=\"ltr\" font-family=\"Arial Black,Arial\" font-weight=\"900\" font-size=\"25\" letter-spacing=\"-1\" fill=\"#fff\">360</text></svg>";
   function initFinder(el) {
     Promise.all([load("products.json"), load("cars.json")]).then(function (res) {
       var d = res[0], cars = res[1], have = {};
       d.forEach(function (p) { have[sizeOf(p)] = (have[sizeOf(p)] || 0) + 1; });
-      var s = { tab: "size", w: "", p: "", r: "", make: "", model: "", size: "", q: "" };
-      function results() {
-        var list = [];
-        if (s.tab === "size" && s.w) list = d.filter(function (p) { return p.w === +s.w && (!s.p || p.p === +s.p) && (!s.r || p.r === +s.r); });
-        if (s.tab === "car" && s.size) list = d.filter(function (p) { return sizeOf(p) === s.size; });
-        if (s.tab === "name" && s.q.trim().length > 1) { var q = s.q.toLowerCase().trim(); list = d.filter(function (p) { return (p.n + " " + p.b + " " + p.m + " " + sizeOf(p)).toLowerCase().indexOf(q) >= 0; }); }
-        return list.sort(function (a, b) { return price(a) - price(b); });
+      var widths = uniq(d.map(function (p) { return p.w; })).sort(byNum);
+      el.innerHTML =
+        '<div class="finder-box">' +
+        '<div class="f-tabs"><button type="button" class="on" data-ft="size">بالمقاس</button><button type="button" data-ft="car">بنوع السيارة</button><button type="button" data-ft="name">بالاسم</button></div>' +
+        '<form class="f-pane step-search" data-pane="size">' +
+        '<div class="tire-guide" aria-hidden="true">' + TIRE_SVG + '<span class="pin p1">1</span><span class="pin p2">2</span><span class="pin p3">3</span></div>' +
+        '<div class="step"><label><i>1</i> العرض</label><select data-s="w">' + opts(widths, "اختر العرض") + "</select></div>" +
+        '<div class="step"><label><i>2</i> الارتفاع</label><select data-s="p" disabled>' + opts([], "اختر الارتفاع") + "</select></div>" +
+        '<div class="step"><label><i>3</i> مقاس الجنط</label><select data-s="r" disabled>' + opts([], "اختر الجنط") + "</select></div>" +
+        '<button type="submit" class="btn btn-primary step-go" disabled>عرض النتائج</button></form>' +
+        '<form class="f-pane size-search" data-pane="car" hidden>' +
+        '<div class="ss-field"><label>الشركة المصنّعة</label><select data-c="make"><option value="">اختر الشركة</option>' + Object.keys(cars).map(function (k) { return '<option value="' + k + '">' + esc(cars[k].ar) + " — " + esc(cars[k].en) + "</option>"; }).join("") + "</select></div>" +
+        '<div class="ss-field"><label>الموديل</label><select data-c="model" disabled><option value="">اختر الموديل</option></select></div>' +
+        '<div class="ss-field"><label>المقاسات المناسبة</label><div class="f-sizes" data-sizes>اختر سيارتك أولاً</div></div>' +
+        '<p class="k360-hint">مقاسات شائعة لهذا الموديل. تأكد من المقاس المكتوب على جنب إطارك قبل الطلب.</p></form>' +
+        '<form class="f-pane name-search" data-pane="name" hidden><input data-q placeholder="اكتب اسم الإطار أو الماركة أو المقاس… مثال: ميشلان، PRIMACY، 265/65R17" required><button class="btn btn-primary" type="submit">بحث</button></form>' +
+        "</div>" +
+        '<div class="k360-finder__res" data-res></div>';
+      var box = el.querySelector(".finder-box"), resEl = el.querySelector("[data-res]");
+      var sW = box.querySelector('[data-s="w"]'), sP = box.querySelector('[data-s="p"]'), sR = box.querySelector('[data-s="r"]'), go = box.querySelector(".step-go");
+      var mk = box.querySelector('[data-c="make"]'), md = box.querySelector('[data-c="model"]'), szs = box.querySelector("[data-sizes]");
+      function show(list, filters, label) {
+        resEl.innerHTML = '<p class="k360-shop__count">' + list.length.toLocaleString("ar-SA") + " إطار مناسب" + (label ? " · " + esc(label) : "") + "</p>" + grid(list, 8) +
+          (list.length > 8 ? '<button type="button" class="k360-btn k360-btn--primary k360-more" data-all>عرض كل النتائج</button>' : "");
+        resEl._f = filters;
       }
-      function render(keepFocus) {
-        var inW = d.filter(function (p) { return !s.w || p.w === +s.w; }), inWP = inW.filter(function (p) { return !s.p || p.p === +s.p; });
-        var body = "";
-        if (s.tab === "size") {
-          body = '<div class="k360-row3">' +
-            '<select data-s="w" aria-label="العرض">' + opts(uniq(d.map(function (p) { return p.w; })).sort(byNum), "العرض", s.w) + "</select>" +
-            '<select data-s="p" aria-label="الارتفاع"' + (s.w ? "" : " disabled") + ">" + opts(uniq(inW.map(function (p) { return p.p; })).sort(byNum), "الارتفاع", s.p) + "</select>" +
-            '<select data-s="r" aria-label="الجنط"' + (s.w ? "" : " disabled") + ">" + opts(uniq(inWP.map(function (p) { return p.r; })).sort(byNum), "الجنط", s.r) + "</select></div>" +
-            '<p class="k360-hint">المقاس مكتوب على جنب الإطار، مثال: 215/60R16</p>';
-        } else if (s.tab === "car") {
-          var mk = cars[s.make], md = mk && mk.models[s.model];
-          body = '<div class="k360-row2">' +
-            '<select data-s="make" aria-label="الشركة"><option value="">الشركة</option>' + Object.keys(cars).map(function (k) { return '<option value="' + k + '"' + (s.make === k ? " selected" : "") + ">" + esc(cars[k].ar) + "</option>"; }).join("") + "</select>" +
-            '<select data-s="model" aria-label="الموديل"' + (mk ? "" : " disabled") + '><option value="">الموديل</option>' + (mk ? Object.keys(mk.models).map(function (k) { return '<option value="' + esc(k) + '"' + (s.model === k ? " selected" : "") + ">" + esc(k) + "</option>"; }).join("") : "") + "</select></div>" +
-            (md ? '<div class="k360-sizes">' + md.sizes.map(function (z) { var n = have[z] || 0; return '<button type="button" data-size="' + z + '" class="k360-chip' + (s.size === z ? " is-on" : "") + (n ? "" : " is-out") + '"' + (n ? "" : " disabled") + ">" + z + (n ? " <small>(" + n.toLocaleString("ar-SA") + ")</small>" : " <small>غير متوفر</small>") + "</button>"; }).join("") + "</div>" : "") +
-            '<p class="k360-hint">مقاسات شائعة لهذا الموديل. تأكد من المقاس المكتوب على جنب إطارك قبل الطلب.</p>';
-        } else {
-          body = '<div class="k360-row1"><input type="search" data-s="q" value="' + esc(s.q) + '" placeholder="اكتب الماركة أو الموديل أو المقاس، مثل: ميشلان أو PRIMACY أو 265/65R17" aria-label="بحث بالاسم"></div>';
-        }
-        var list = results(), more = list.length > 8;
-        el.innerHTML =
-          '<div class="k360-tabsbar" role="tablist">' +
-          [["size", "بالمقاس"], ["car", "بنوع السيارة"], ["name", "بالاسم"]].map(function (t) { return '<button type="button" role="tab" data-tab="' + t[0] + '" class="' + (s.tab === t[0] ? "is-on" : "") + '">' + t[1] + "</button>"; }).join("") +
-          "</div>" + body +
-          (list.length || (s.tab === "size" && s.w) || (s.tab === "car" && s.size) || (s.tab === "name" && s.q.trim().length > 1)
-            ? '<div class="k360-finder__res"><p class="k360-shop__count">' + list.length.toLocaleString("ar-SA") + " إطار مناسب</p>" + grid(list, 8) +
-              (more ? '<button type="button" class="k360-btn k360-btn--primary k360-more" data-all>عرض كل النتائج</button>' : "") + "</div>"
-            : "");
-        if (keepFocus) { var i = el.querySelector('[data-s="q"]'); if (i) { i.focus(); i.setSelectionRange(i.value.length, i.value.length); } }
+      function sorted(list) { return list.sort(function (a, b) { return price(a) - price(b); }); }
+      function upd() {
+        var W = +sW.value, P = sP.value === "" ? null : +sP.value;
+        var inW = d.filter(function (p) { return p.w === W; });
+        if (sW.value && sP.disabled) { sP.innerHTML = opts(uniq(inW.map(function (p) { return p.p; })).sort(byNum), "اختر الارتفاع"); }
+        sP.disabled = !sW.value;
+        var inWP = inW.filter(function (p) { return P === null || p.p === P; });
+        if (sP.value && sR.disabled) { sR.innerHTML = opts(uniq(inWP.map(function (p) { return p.r; })).sort(byNum), "اختر الجنط"); }
+        sR.disabled = !sP.value;
+        go.disabled = !(sW.value && sP.value && sR.value);
+        var t = box.querySelector("#tgW"), h = box.querySelector("#tgH"), r = box.querySelector("#tgR");
+        if (t) t.textContent = sW.value || "205"; if (h) h.textContent = sP.value || "55"; if (r) r.textContent = sR.value || "16";
+        box.querySelectorAll(".pin").forEach(function (pin, k) { pin.classList.toggle("done", !![sW, sP, sR][k].value); });
       }
-      el.addEventListener("change", function (e) {
-        var k = e.target.getAttribute("data-s"); if (!k || k === "q") return;
-        s[k] = e.target.value;
-        if (k === "w") { s.p = ""; s.r = ""; } if (k === "p") s.r = "";
-        if (k === "make") { s.model = ""; s.size = ""; } if (k === "model") s.size = "";
-        render();
+      sW.addEventListener("change", function () { sP.disabled = true; sP.value = ""; sR.disabled = true; sR.value = ""; upd(); });
+      sP.addEventListener("change", function () { sR.disabled = true; sR.value = ""; upd(); });
+      sR.addEventListener("change", upd);
+      box.querySelector('[data-pane="size"]').addEventListener("submit", function (e) {
+        e.preventDefault();
+        var f = { w: sW.value, p: sP.value, r: sR.value };
+        show(sorted(d.filter(function (p) { return p.w === +f.w && p.p === +f.p && p.r === +f.r; })), f, f.w + "/" + f.p + "R" + f.r);
       });
-      var t;
-      el.addEventListener("input", function (e) {
-        if (e.target.getAttribute("data-s") !== "q") return;
-        s.q = e.target.value; clearTimeout(t); t = setTimeout(function () { render(true); }, 250);
+      mk.addEventListener("change", function () {
+        var c = cars[mk.value];
+        md.innerHTML = '<option value="">اختر الموديل</option>' + (c ? Object.keys(c.models).map(function (m) { return '<option value="' + esc(m) + '">' + esc(m) + " — " + esc(c.models[m].en) + "</option>"; }).join("") : "");
+        md.disabled = !c; szs.textContent = "اختر الموديل";
       });
-      el.addEventListener("click", function (e) {
-        var b = e.target.closest("[data-tab]"); if (b) { s.tab = b.getAttribute("data-tab"); render(); return; }
-        var z = e.target.closest("[data-size]"); if (z) { s.size = z.getAttribute("data-size"); render(); return; }
-        if (e.target.closest("[data-all]")) {
-          var f = {};
-          if (s.tab === "size") f = { w: s.w, p: s.p, r: s.r };
-          if (s.tab === "car") { var m = s.size.match(/^(\d+)\/?(\d*)R(\d+)$/); if (m) f = { w: m[1], p: m[2] || "0", r: m[3] }; }
-          if (s.tab === "name") f = { q: s.q };
-          if (shop.el) shopApply(f); else window.location.href = base() + "#k360-shop";
-        }
+      md.addEventListener("change", function () {
+        var c = cars[mk.value], m = c && c.models[md.value];
+        szs.innerHTML = m ? m.sizes.map(function (z) { var n = have[z] || 0; return n ? '<button type="button" data-size="' + z + '">' + z + " <small>(" + n.toLocaleString("ar-SA") + ")</small></button>" : '<span class="is-out">' + z + " · غير متوفر</span>"; }).join("") : "اختر الموديل";
       });
-      render();
+      szs.addEventListener("click", function (e) {
+        var b = e.target.closest("[data-size]"); if (!b) return;
+        var z = b.getAttribute("data-size"), m = z.match(/^(\d+)\/?(\d*)R(\d+)$/);
+        szs.querySelectorAll("[data-size]").forEach(function (x) { x.classList.toggle("on", x === b); });
+        if (m) show(sorted(d.filter(function (p) { return sizeOf(p) === z; })), { w: m[1], p: m[2] || "0", r: m[3] }, z);
+      });
+      box.querySelector('[data-pane="name"]').addEventListener("submit", function (e) {
+        e.preventDefault();
+        var q = box.querySelector("[data-q]").value.toLowerCase().trim(); if (q.length < 2) return;
+        show(sorted(d.filter(function (p) { return (p.n + " " + p.b + " " + p.m + " " + sizeOf(p)).toLowerCase().indexOf(q) >= 0; })), { q: q }, q);
+      });
+      box.querySelector(".f-tabs").addEventListener("click", function (e) {
+        var b = e.target.closest("[data-ft]"); if (!b) return;
+        box.querySelectorAll(".f-tabs button").forEach(function (x) { x.classList.toggle("on", x === b); });
+        box.querySelectorAll(".f-pane").forEach(function (p) { p.hidden = p.getAttribute("data-pane") !== b.getAttribute("data-ft"); });
+        resEl.innerHTML = "";
+      });
+      resEl.addEventListener("click", function (e) {
+        if (!e.target.closest("[data-all]")) return;
+        if (shop.el) shopApply(resEl._f || {}); else window.location.href = base() + "#k360-shop";
+      });
+      upd();
     }).catch(function () { fail(el); });
   }
 
-  /* ---------- collections ---------- */
+  /* ---------- collections (website markup: 3D stage + info + strip) ---------- */
   function initCollections(el) {
     load("products.json").then(function (d) {
-      var cur = COLLECTIONS[0].id;
-      function render() {
-        var c = COLLECTIONS.filter(function (x) { return x.id === cur; })[0];
-        var list = d.filter(c.test).sort(function (a, b) { return price(a) - price(b); });
-        el.innerHTML = '<div class="k360-chips">' + COLLECTIONS.map(function (x) { return '<button type="button" data-col="' + x.id + '" class="k360-chip' + (x.id === cur ? " is-on" : "") + '">' + x.ar + "</button>"; }).join("") + "</div>" +
-          '<div class="k360-colinfo"><h3>كولكشن ' + c.ar + "</h3><p>" + c.desc + " · " + list.length.toLocaleString("ar-SA") + " إطار</p></div>" +
-          '<div class="k360-strip">' + list.slice(0, 12).map(card).join("") + "</div>" +
-          '<button type="button" class="k360-btn k360-btn--primary k360-more" data-shopcol="' + c.id + '">تسوّق الكولكشن كامل</button>';
+      var cols = COLLECTIONS.map(function (c) {
+        var items = d.filter(c.test).sort(function (a, b) { return price(b) - price(a); });
+        return { c: c, items: items, cover: items[0] };
+      }).filter(function (x) { return x.items.length; });
+      var i = 0;
+      el.innerHTML =
+        '<div class="col-stage">' +
+        '<button type="button" class="col-arrow col-prev" aria-label="السابق">›</button>' +
+        '<div class="col-track">' + cols.map(function (x, k) { return '<div class="col-item" data-k="' + k + '"><span class="col-pill">' + x.c.ar + '</span><img src="' + IMG + esc(x.cover.im) + '" alt="' + x.c.ar + '"></div>'; }).join("") + "</div>" +
+        '<button type="button" class="col-arrow col-next" aria-label="التالي">‹</button>' +
+        '<div class="col-hint">◉ اسحب لتتنقّل</div></div>' +
+        '<div class="col-info"><h3 data-name></h3><p data-desc></p></div>' +
+        '<div class="col-strip-h"><b>منتجات الكولكشن</b><a class="btn btn-primary" data-shopcol>تسوّق الكولكشن كامل</a></div>' +
+        '<div class="col-strip" data-strip></div>';
+      var items = [].slice.call(el.querySelectorAll(".col-item"));
+      function showCol(n) {
+        i = (n + cols.length) % cols.length;
+        items.forEach(function (it, k) { var dd = k - i; if (dd > cols.length / 2) dd -= cols.length; if (dd < -cols.length / 2) dd += cols.length; it.dataset.pos = Math.abs(dd) > 1 ? "far" : dd; });
+        var x = cols[i];
+        el.querySelector("[data-name]").textContent = "كولكشن " + x.c.ar;
+        el.querySelector("[data-desc]").textContent = x.c.desc + " — " + x.items.length.toLocaleString("ar-SA") + " إطار";
+        el.querySelector("[data-shopcol]").setAttribute("data-col", x.c.id);
+        el.querySelector("[data-strip]").innerHTML = x.items.slice(0, 10).map(function (p) {
+          return '<a class="col-p" href="' + productUrl(p) + '"><img src="' + IMG + esc(p.im) + '" alt="" loading="lazy"><small>' + esc(p.b) + "</small><b>" + sizeOf(p) + "</b><span>" + money(price(p)) + (p.s && p.s < p.pr ? " <s>" + money(p.pr) + "</s>" : "") + "</span></a>";
+        }).join("");
       }
-      el.addEventListener("click", function (e) {
-        var b = e.target.closest("[data-col]"); if (b) { cur = b.getAttribute("data-col"); render(); return; }
-        var s = e.target.closest("[data-shopcol]"); if (s) { if (shop.el) shopApply({ col: s.getAttribute("data-shopcol") }); else window.location.href = base() + "#k360-shop"; }
+      items.forEach(function (it) { it.addEventListener("click", function () { showCol(+it.dataset.k); }); });
+      el.querySelector(".col-prev").addEventListener("click", function () { showCol(i - 1); });
+      el.querySelector(".col-next").addEventListener("click", function () { showCol(i + 1); });
+      el.querySelector("[data-shopcol]").addEventListener("click", function (e) {
+        e.preventDefault(); var id = e.currentTarget.getAttribute("data-col");
+        if (shop.el) shopApply({ col: id }); else window.location.href = base() + "#k360-shop";
       });
-      render();
+      var x0 = null, st = el.querySelector(".col-stage");
+      st.addEventListener("pointerdown", function (e) { x0 = e.clientX; });
+      st.addEventListener("pointerup", function (e) { if (x0 === null) return; var dx = e.clientX - x0; if (Math.abs(dx) > 40) showCol(i + (dx > 0 ? 1 : -1)); x0 = null; });
+      showCol(0);
     }).catch(function () { fail(el); });
+  }
+
+  /* ---------- brand strip (website markup) ---------- */
+  var LOGO = "https://raw.githubusercontent.com/eyadshouk13-lab/kafarat360-images/e8808d4a95b134083d4656f3c8dcad5a39445f5a/";
+  function brandUrl(b) { return base().replace(/\/?$/, "/") + "b/brand-" + b.i; }
+  function initBrands(el) {
+    load("brands.json").then(function (bs) {
+      el.innerHTML = bs.map(function (b) {
+        var logo = b.logo ? '<img src="' + LOGO + esc(b.logo) + '" alt="' + esc(b.ar) + '" loading="lazy">' : "<b>" + esc(b.en || b.ar) + "</b>";
+        return '<a class="brand" href="' + brandUrl(b) + '"><div class="bl">' + logo + "</div><b>" + esc(b.ar) + '</b><small>' + b.n.toLocaleString("ar-SA") + ' إطار</small><span class="pill-live">تسوّق ' + esc(b.ar) + "</span></a>";
+      }).join("");
+    }).catch(function () { fail(el); });
+  }
+
+  /* ---------- category bar under the store header (all pages) ---------- */
+  function initNav() {
+    if (document.querySelector(".k360-nav")) return;
+    var header = document.querySelector(".store-header"); if (!header) return;
+    var home = base().replace(/\/?$/, "/");
+    var links = [[home, "الصفحة الرئيسية"], [home + "#k360-shop", "جميع المنتجات"], [home + "#k360-best", "الأكثر مبيعاً"],
+      [home + "b/brand-167120911", "بريجستون"], [home + "#k360-garage", "&#x1F3E0; ماي جراش"], [home + "#k360-best", "جميع التصنيفات"],
+      [home + "#k360-brands", "العلامات التجارية"], [home + "#k360-finder", "ابحث بالمقاس"]];
+    var here = location.href.replace(/[?#].*$/, "").replace(/\/?$/, "/");
+    var nav = document.createElement("nav");
+    nav.className = "k360-site k360-nav";
+    nav.setAttribute("aria-label", "التصنيفات");
+    nav.innerHTML = '<div class="nav"><div class="wrap">' + links.map(function (l, k) { return '<a href="' + l[0] + '"' + (k === 0 && here === home ? ' class="active"' : "") + ">" + l[1] + "</a>"; }).join("") + "</div></div>";
+    header.parentNode.insertBefore(nav, header.nextSibling);
   }
 
   /* ---------- categories / best sellers switch ---------- */
@@ -325,7 +394,7 @@
   }
 
   /* ---------- start ---------- */
-  var INIT = { finder: initFinder, collections: initCollections, tabs: initTabs, garage: initGarage, shop: initShop };
+  var INIT = { finder: initFinder, collections: initCollections, tabs: initTabs, garage: initGarage, shop: initShop, brands: initBrands };
   function scan() {
     document.querySelectorAll("[data-k360]:not([data-k360-on])").forEach(function (el) {
       var fn = INIT[el.getAttribute("data-k360")]; if (!fn) return;
@@ -334,6 +403,7 @@
     var cards = document.querySelectorAll(".s-product-card-entry");
     for (var i = 0; i < cards.length; i++) addRibbon(cards[i]);
     initPackages();
+    initNav();
   }
   var queued = false;
   function queue() { if (queued) return; queued = true; setTimeout(function () { queued = false; scan(); }, 150); }
