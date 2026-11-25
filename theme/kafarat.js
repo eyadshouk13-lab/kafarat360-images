@@ -15,13 +15,13 @@
   var IMG = "https://raw.githubusercontent.com/eyadshouk13-lab/kafarat360-images/d5004e9/";
   var TYPES = { car: "سيارات ركاب", suv: "SUV ودفع رباعي", truck: "نقل خفيف" };
   var COLLECTIONS = [
-    { id: "value", ar: "اقتصادي", desc: "جودة موثوقة بأفضل سعر", test: function (p) { return price(p) < 450; } },
-    { id: "runflat", ar: "رن فليت", desc: "تكمل القيادة حتى بعد الثقب", test: function (p) { return p.f === 1; } },
-    { id: "offroad", ar: "أوف رود", desc: "متانة للبر والطرق الوعرة", test: function (p) { return /A\/T|M\/T|ALL TERRAIN|KO2|WRANGLER|AT PRO|AT3|MT\b/i.test(p.n); } },
+    { id: "sport", ar: "سبورت", desc: "ثبات على السرعات العالية واستجابة دقيقة", test: function (p) { return /PILOT SPORT|P ?ZERO|POTENZA|EAGLE F1|SPORTCONTACT|VENTUS S1|ADVAN|PS4|SPORT MAXX/i.test(p.n); } },
+    { id: "comfort", ar: "كومفورت", desc: "هدوء وراحة في كل مشوار", test: function (p) { return /PRIMACY|TURANZA|CINTURATO|ECOCONTACT|EFFICIENTGRIP|PREMIUMCONTACT|ECOPIA|BLUEARTH|VENTUS PRIME|ASSURANCE/i.test(p.n); } },
     { id: "luxury", ar: "فخم", desc: "أعلى فئات الإطارات للسيارات الفاخرة", test: function (p) { return price(p) >= 1200; } },
     { id: "suv", ar: "SUV", desc: "إطارات سيارات الدفع الرباعي والكروس أوفر", test: function (p) { return p.t === "suv"; } },
-    { id: "comfort", ar: "كومفورت", desc: "هدوء وراحة في كل مشوار", test: function (p) { return /PRIMACY|TURANZA|CINTURATO|ECOCONTACT|EFFICIENTGRIP|PREMIUMCONTACT|ECOPIA|BLUEARTH|VENTUS PRIME|ASSURANCE/i.test(p.n); } },
-    { id: "sport", ar: "سبورت", desc: "ثبات على السرعات العالية واستجابة دقيقة", test: function (p) { return /PILOT SPORT|P ?ZERO|POTENZA|EAGLE F1|SPORTCONTACT|VENTUS S1|ADVAN|PS4|SPORT MAXX/i.test(p.n); } }
+    { id: "offroad", ar: "أوف رود", desc: "متانة للبر والطرق الوعرة", test: function (p) { return /A\/T|M\/T|ALL TERRAIN|KO2|WRANGLER|AT PRO|AT3|MT\b/i.test(p.n); } },
+    { id: "runflat", ar: "رن فليت", desc: "تكمل القيادة حتى بعد الثقب", test: function (p) { return p.f === 1; } },
+    { id: "value", ar: "اقتصادي", desc: "جودة موثوقة بأفضل سعر", test: function (p) { return price(p) < 450; } }
   ];
 
   /* ---------- helpers ---------- */

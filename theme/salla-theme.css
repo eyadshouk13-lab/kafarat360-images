@@ -527,7 +527,10 @@ body.theme-raed { background-color: var(--k-bg); color: var(--k-ink); }
 .k360-site .f-sizes .is-out { opacity:.45; cursor:default; }
 .k360-site .brand small { display:block; color:var(--muted); font-size:12px; }
 .k360-site .bl > b { font-size:15px; color:var(--ink2); letter-spacing:.5px; }
-.k360-site .col-item img { mix-blend-mode: multiply; }
+.k360-site .col-item { mix-blend-mode: multiply; }
+.k360-site .col-item .col-pill { mix-blend-mode: normal; }
+.k360-site .col-strip-h .btn { flex: 0 0 auto; width: auto; }
+.k360-site .col-p img { mix-blend-mode: multiply; }
 .k360-nav { position: relative; z-index: 5; background: #fff; }
 .k360-nav .nav { border-top: 0; border-bottom: 1px solid var(--line); }
 .k360-nav .nav .wrap { scrollbar-width: none; }
