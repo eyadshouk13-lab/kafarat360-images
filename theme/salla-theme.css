@@ -116,6 +116,7 @@ body.theme-raed { background-color: var(--k-bg); color: var(--k-ink); }
 .k360-bnr--warranty { background: radial-gradient(ellipse at 20% 50%, #FFFFFF 0, #FAFAFA 55%, var(--k-sand) 100%); color: var(--k-brand-d); }
 .k360-bnr--warranty:hover { color: var(--k-brand-d); }
 .k360-bnr--warranty::after { border-color: rgba(123,63,228,.45); }
+.k360-bnr--warranty .k360-bnr__logo, .k360-bnr--finder .k360-bnr__logo { background: #111; border-radius: 1.4cqw; padding: .6cqw 1.2cqw; }
 .k360-bnr--warranty .k360-bnr__pill { display: inline-block; margin-top: 3cqw; background: var(--k-brand); color: #fff; font-size: 3.8cqw; font-weight: 800; padding: 1cqw 5cqw; border-radius: 6cqw; }
 .k360-bnr--warranty .k360-bnr__shield { position: absolute; z-index: 3; bottom: 6cqw; left: 40%; width: 13cqw; height: 13cqw; border-radius: 50%; display: grid; place-items: center; border: .4cqw solid var(--k-brand); background: #fff; color: var(--k-brand-d); font-size: 6cqw; font-weight: 900; }
 
