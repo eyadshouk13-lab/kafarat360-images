@@ -216,7 +216,7 @@
       });
       resEl.addEventListener("click", function (e) {
         if (!e.target.closest("[data-all]")) return;
-        if (shop.el) shopApply(resEl._f || {}); else window.location.href = base() + "#k360-shop";
+        window.location.href = pageUrl("shop", resEl._f || {});
       });
       upd();
     }).catch(function () { fail(el); });
@@ -256,7 +256,7 @@
       el.querySelector(".col-next").addEventListener("click", function () { showCol(i + 1); });
       el.querySelector("[data-shopcol]").addEventListener("click", function (e) {
         e.preventDefault(); var id = e.currentTarget.getAttribute("data-col");
-        if (shop.el) shopApply({ col: id }); else window.location.href = base() + "#k360-shop";
+        window.location.href = pageUrl("shop", { col: id });
       });
       var x0 = null, st = el.querySelector(".col-stage");
       st.addEventListener("pointerdown", function (e) { x0 = e.clientX; });
@@ -282,14 +282,15 @@
     if (document.querySelector(".k360-nav")) return;
     var header = document.querySelector(".store-header"); if (!header) return;
     var home = base().replace(/\/?$/, "/");
-    var links = [[home, "الصفحة الرئيسية"], [home + "#k360-shop", "جميع المنتجات"], [home + "#k360-best", "الأكثر مبيعاً"],
-      [home + "b/brand-167120911", "بريجستون"], [home + "#k360-garage", "&#x1F3E0; ماي جراش"], [home + "#k360-best", "جميع التصنيفات"],
-      [home + "#k360-brands", "العلامات التجارية"], [home + "#k360-finder", "ابحث بالمقاس"]];
+    var links = [[home, "الصفحة الرئيسية", ""], [pageUrl("shop"), "جميع المنتجات", "shop"], [pageUrl("best"), "الأكثر مبيعاً", "best"],
+      [home + "b/brand-167120911", "بريجستون", ""], [home + "#k360-garage", "&#x1F3E0; ماي جراش", ""], [pageUrl("cats"), "جميع التصنيفات", "cats"],
+      [pageUrl("brands"), "العلامات التجارية", "brands"], [home + "#k360-finder", "ابحث بالمقاس", ""]];
+    var cur = new URLSearchParams(location.search).get("k360") || "";
     var here = location.href.replace(/[?#].*$/, "").replace(/\/?$/, "/");
     var nav = document.createElement("nav");
     nav.className = "k360-site k360-nav";
     nav.setAttribute("aria-label", "التصنيفات");
-    nav.innerHTML = '<div class="nav"><div class="wrap">' + links.map(function (l, k) { return '<a href="' + l[0] + '"' + (k === 0 && here === home ? ' class="active"' : "") + ">" + l[1] + "</a>"; }).join("") + "</div></div>";
+    nav.innerHTML = '<div class="nav"><div class="wrap">' + links.map(function (l, k) { var on = cur ? l[2] === cur : (k === 0 && here === home); return '<a href="' + l[0] + '"' + (on ? ' class="active"' : "") + ">" + l[1] + "</a>"; }).join("") + "</div></div>";
     header.parentNode.insertBefore(nav, header.nextSibling);
   }
 
@@ -309,7 +310,7 @@
       var c = e.target.closest("[data-cat]"); if (!c) return;
       e.preventDefault();
       var v = c.getAttribute("data-cat"), f = TYPES[v] ? { t: v } : { col: v };
-      if (shop.el) shopApply(f); else window.location.href = base() + "#k360-shop";
+      window.location.href = pageUrl("shop", f);
     });
     show("cats");
   }
@@ -352,7 +353,7 @@
       });
       el.addEventListener("click", function (e) {
         var g = e.target.closest("[data-go]"), x = e.target.closest("[data-del]"), list = read();
-        if (g) { var c = list[+g.getAttribute("data-go")], m = c && c.size.match(/^(\d+)\/?(\d*)R(\d+)$/); if (m) { var f = { w: m[1], p: m[2] || "0", r: m[3] }; if (shop.el) shopApply(f); else window.location.href = base() + "#k360-shop"; } }
+        if (g) { var c = list[+g.getAttribute("data-go")], m = c && c.size.match(/^(\d+)\/?(\d*)R(\d+)$/); if (m) { var f = { w: m[1], p: m[2] || "0", r: m[3] }; window.location.href = pageUrl("shop", f); } }
         if (x) { list.splice(+x.getAttribute("data-del"), 1); save(list); render(); }
       });
       render();
@@ -370,10 +371,14 @@
       var p = d.filter(function (x) { return x.i === id; })[0]; if (!p) return;
       var u = price(p), box = document.createElement("div");
       box.className = "k360-pkg";
-      box.innerHTML = '<p class="k360-pkg__t">قارن الباقات</p><table><thead><tr><th>الباقة</th><th>سعر الكفر</th><th>الإجمالي</th></tr></thead><tbody>' +
-        [[1, "كفر واحد"], [2, "كفرين"], [4, "4 كفرات"]].map(function (r) {
-          return "<tr><td>" + r[1] + "</td><td>" + money(u) + "</td><td><b>" + money(u * r[0]) + "</b></td></tr>";
-        }).join("") + '</tbody></table><p class="k360-hint">اختر العدد من خانة الكمية. ' + (p.g ? "ضمان " + p.g + " سنوات · " : "") + (p.c ? "صنع " + esc(p.c) + (p.y ? " " + p.y : "") : "") + "</p>";
+      box.innerHTML = '<p class="k360-pkg__t">اختر باقتك</p><table><thead><tr><th>الباقة</th><th>سعر الكفر</th><th>الإجمالي</th><th></th></tr></thead><tbody>' +
+        [[1, "كفر واحد"], [2, "باقة كفرين"], [4, "باقة 4 كفرات"]].map(function (r) {
+          return "<tr" + (r[0] === 4 ? ' class="is-hot"' : "") + "><td>" + r[1] + (r[0] === 4 ? " <i>مجموعة كاملة</i>" : "") + "</td><td>" + money(u) + "</td><td><b>" + money(u * r[0]) + '</b></td><td><button type="button" class="k360-pkg__add" data-pkg="' + r[0] + '">أضف</button></td></tr>';
+        }).join("") + '</tbody></table><p class="k360-hint">' + (p.g ? "ضمان " + p.g + " سنوات · " : "") + (p.c ? "صنع " + esc(p.c) + (p.y ? " " + p.y : "") : "") + "</p>";
+      box.addEventListener("click", function (e) {
+        var b = e.target.closest("[data-pkg]"); if (!b) return;
+        addToCart(id, +b.getAttribute("data-pkg"), b);
+      });
       if (document.querySelector(".k360-pkg")) return;
       anchor.parentNode.insertBefore(box, anchor);
     }).catch(function () {});
@@ -393,9 +398,148 @@
     box.appendChild(dv);
   }
 
+  /* ---------- full pages on top of Salla's search page: search?q=360&k360=shop|best|cats|brands ---------- */
+  var PAGES = { shop: "جميع المنتجات", best: "الأكثر مبيعاً", cats: "جميع التصنيفات", brands: "العلامات التجارية" };
+  var CATS = [
+    { id: "car", name: "إطارات سيارات ركاب", desc: "سيدان وهاتشباك", icon: "cat-icons/car.webp" },
+    { id: "suv", name: "إطارات SUV ودفع رباعي", desc: "جيب وكروس أوفر", icon: "cat-icons/suv.webp" },
+    { id: "truck", name: "إطارات نقل خفيف", desc: "بيك أب وفانات", icon: "cat-icons/truck.webp" },
+    { id: "oils", name: "زيوت وفلاتر", desc: "باقات تغيير الزيت", icon: "cat-icons/oils.svg", soon: true },
+    { id: "batteries", name: "البطاريات", desc: "تركيب في موقعك", icon: "cat-icons/batteries.svg", soon: true },
+    { id: "roadside", name: "المساعدة على الطريق", desc: "بنشر وإطار احتياطي", icon: "cat-icons/roadside.svg", soon: true }
+  ];
+  function pageUrl(name, params) {
+    var u = base().replace(/\/?$/, "/") + "search?q=360&k360=" + name;
+    Object.keys(params || {}).forEach(function (k) { if (params[k] !== "" && params[k] != null) u += "&" + k + "=" + encodeURIComponent(params[k]); });
+    return u;
+  }
+  window.k360Page = pageUrl;
+
+  function siteCard(p, logos) {
+    var off = p.s && p.s < p.pr ? Math.round((1 - p.s / p.pr) * 100) : 0, u = price(p), url = productUrl(p);
+    var msg = off ? "خصم حصري " + off + "% ✦ توصيل وتركيب عند باب بيتك" : "توصيل وتركيب عند باب بيتك ✦ ضمان الوكيل";
+    var seg = ""; for (var i = 0; i < 4; i++) seg += "<span>" + msg + "</span><i>✦</i>";
+    var logo = logos[p.bi];
+    return '<article class="card">' +
+      (off ? '<span class="badge-off">خصم ' + off + "%</span>" : (p.f ? '<span class="badge-tag">Run Flat</span>' : "")) +
+      '<a href="' + url + '" class="card-img"><div class="card-rib' + (off ? "" : " alt") + '"><div class="rib-track"><div>' + seg + '</div><div aria-hidden="true">' + seg + "</div></div></div>" +
+      '<img loading="lazy" src="' + IMG + esc(p.im) + '" alt="' + esc(p.b + " " + p.m) + '"></a>' +
+      '<div class="card-body">' +
+      '<div class="card-brand">' + (logo ? '<img src="' + LOGO + esc(logo) + '" alt="">' : "") + "<span>" + esc(p.b) + "</span></div>" +
+      '<a href="' + url + '" class="card-title">' + sizeOf(p) + " " + esc(p.b) + " " + esc(p.m) + "</a>" +
+      '<div class="card-meta"><span>🛡️ ضمان ' + (p.g ? p.g + " سنوات" : "الوكيل") + "</span><span>" + esc(p.c || "") + (p.y ? " · " + p.y : "") + "</span></div>" +
+      '<div class="price"><b>' + money(u) + "</b>" + (off ? "<s>" + money(p.pr) + "</s>" : "") + "<small>للإطار</small></div>" +
+      '<div class="pkgs">' +
+      '<button type="button" class="pkg" data-add="' + p.i + '" data-q="2"><span class="pkg-t">باقة كفرين</span><b>' + money(u * 2) + "</b>" + (off ? "<s>" + money(p.pr * 2) + "</s>" : "") + "<small>🛒 أضف</small></button>" +
+      '<button type="button" class="pkg hot" data-add="' + p.i + '" data-q="4"><i>مجموعة كاملة</i><span class="pkg-t">باقة 4 كفرات</span><b>' + money(u * 4) + "</b>" + (off ? "<s>" + money(p.pr * 4) + "</s>" : "") + "<small>🛒 أضف</small></button>" +
+      "</div></div></article>";
+  }
+
+  function addToCart(id, q, btn) {
+    if (!(window.salla && salla.cart && salla.cart.addItem)) { window.location.href = base().replace(/\/?$/, "/") + "k360/p" + id; return; }
+    if (btn) btn.disabled = true;
+    salla.cart.addItem({ id: id, quantity: q }).catch(function () { window.location.href = base().replace(/\/?$/, "/") + "k360/p" + id; })
+      .then(function () { if (btn) btn.disabled = false; });
+  }
+
+  function renderShopPage(body, q) {
+    Promise.all([load("products.json"), load("brands.json")]).then(function (res) {
+      var d = res[0], logos = {};
+      res[1].forEach(function (b) { if (b.logo) logos[b.i] = b.logo; });
+      var st = { w: q.get("w") || "", p: q.get("p") || "", r: q.get("r") || "", q: (q.get("q2") || "").toLowerCase(), col: q.get("col") || "", sort: "", shown: 24,
+        t: {}, b: {}, m: {}, c: {}, y: {} };
+      if (q.get("t")) st.t[q.get("t")] = 1; if (q.get("b")) st.b[q.get("b")] = 1;
+      function keys(o) { return Object.keys(o).filter(function (k) { return o[k]; }); }
+      function chk(key, items) { return items.map(function (it) { return '<label class="chk"><input type="checkbox" data-k="' + key + '" value="' + esc(it[0]) + '"' + (st[key][it[0]] ? " checked" : "") + "> " + esc(it[1]) + "</label>"; }).join(""); }
+      function list() {
+        var col = COLLECTIONS.filter(function (c) { return c.id === st.col; })[0];
+        var T = keys(st.t), B = keys(st.b), M = keys(st.m), C = keys(st.c), Y = keys(st.y);
+        var out = d.filter(function (p) {
+          return (!st.w || p.w === +st.w) && (!st.p || p.p === +st.p) && (!st.r || p.r === +st.r) &&
+            (!T.length || T.indexOf(p.t) >= 0) && (!B.length || B.indexOf(p.b) >= 0) && (!M.length || M.indexOf(p.m) >= 0) &&
+            (!C.length || C.indexOf(p.c) >= 0) && (!Y.length || Y.indexOf(String(p.y)) >= 0) && (!col || col.test(p)) &&
+            (!st.q || (p.n + " " + p.b + " " + p.m + " " + sizeOf(p)).toLowerCase().indexOf(st.q) >= 0);
+        });
+        if (st.sort === "pa") out.sort(function (a, b) { return price(a) - price(b); });
+        if (st.sort === "pd") out.sort(function (a, b) { return price(b) - price(a); });
+        if (st.sort === "new") out.sort(function (a, b) { return (b.y || 0) - (a.y || 0); });
+        return out;
+      }
+      function count(arr, f) { var m = {}; arr.forEach(function (p) { var k = f(p); if (k) m[k] = (m[k] || 0) + 1; }); return Object.keys(m).sort(function (a, b) { return m[b] - m[a]; }); }
+      function render() {
+        var inW = d.filter(function (p) { return !st.w || p.w === +st.w; }), inWP = inW.filter(function (p) { return !st.p || p.p === +st.p; });
+        var B = keys(st.b), modelsFrom = B.length ? d.filter(function (p) { return B.indexOf(p.b) >= 0; }) : d;
+        var res = list(), col = COLLECTIONS.filter(function (c) { return c.id === st.col; })[0];
+        body.innerHTML = '<div class="listing">' +
+          '<button type="button" class="flt-toggle" data-tgl>☰ الفلاتر والمقاسات</button>' +
+          '<aside class="filters' + (st.open ? " open" : "") + '">' +
+          "<h4>المقاس</h4>" +
+          '<select data-f="w">' + opts(uniq(d.map(function (p) { return p.w; })).sort(byNum), "العرض", st.w) + "</select>" +
+          '<select data-f="p">' + opts(uniq(inW.map(function (p) { return p.p; })).sort(byNum), "الارتفاع", st.p) + "</select>" +
+          '<select data-f="r">' + opts(uniq(inWP.map(function (p) { return p.r; })).sort(byNum), "الجنط", st.r) + "</select>" +
+          "<h4>الفئة</h4><div>" + chk("t", Object.keys(TYPES).map(function (k) { return [k, "إطارات " + TYPES[k]]; })) + "</div>" +
+          '<h4>العلامة التجارية</h4><div class="chk-list">' + chk("b", count(d, function (p) { return p.b; }).map(function (x) { return [x, x]; })) + "</div>" +
+          '<h4>الموديل</h4><div class="chk-list">' + chk("m", count(modelsFrom, function (p) { return p.m; }).slice(0, 60).map(function (x) { return [x, x]; })) + "</div>" +
+          '<h4>بلد الصنع</h4><div class="chk-list">' + chk("c", count(d, function (p) { return p.c; }).map(function (x) { return [x, x]; })) + "</div>" +
+          "<h4>سنة الصنع</h4><div>" + chk("y", uniq(d.map(function (p) { return p.y ? String(p.y) : ""; })).sort().reverse().map(function (x) { return [x, x]; })) + "</div>" +
+          '<button type="button" class="btn btn-dark" style="width:100%;margin-top:12px" data-reset>مسح الفلاتر</button>' +
+          "</aside><div>" +
+          '<div class="toolbar"><b>' + res.length.toLocaleString("ar-SA") + " منتج" + (col ? " · كولكشن " + col.ar : "") + (st.q ? " · " + esc(st.q) : "") + "</b>" +
+          '<select data-sort><option value="">الترتيب: الافتراضي</option><option value="pa"' + (st.sort === "pa" ? " selected" : "") + '>السعر: الأقل أولاً</option><option value="pd"' + (st.sort === "pd" ? " selected" : "") + '>السعر: الأعلى أولاً</option><option value="new"' + (st.sort === "new" ? " selected" : "") + ">الأحدث صنعاً</option></select></div>" +
+          (res.length ? '<div class="grid">' + res.slice(0, st.shown).map(function (p) { return siteCard(p, logos); }).join("") + "</div>" : '<p class="k360-empty">ما لقينا إطارات بهذا الاختيار.</p>') +
+          (res.length > st.shown ? '<button type="button" class="btn btn-primary k360-more" data-more>عرض المزيد</button>' : "") +
+          "</div></div>";
+      }
+      body.addEventListener("change", function (e) {
+        var t = e.target, k = t.getAttribute("data-k"), f = t.getAttribute("data-f");
+        if (k) { st[k][t.value] = t.checked ? 1 : 0; if (k === "b") st.m = {}; }
+        if (f) { st[f] = t.value; if (f === "w") { st.p = ""; st.r = ""; } if (f === "p") st.r = ""; }
+        if (t.hasAttribute("data-sort")) st.sort = t.value;
+        st.shown = 24; render();
+      });
+      body.addEventListener("click", function (e) {
+        var a = e.target.closest("[data-add]"); if (a) { addToCart(+a.getAttribute("data-add"), +a.getAttribute("data-q"), a); return; }
+        if (e.target.closest("[data-more]")) { st.shown += 24; render(); }
+        if (e.target.closest("[data-reset]")) { st = { w: "", p: "", r: "", q: "", col: "", sort: "", shown: 24, t: {}, b: {}, m: {}, c: {}, y: {} }; render(); }
+        if (e.target.closest("[data-tgl]")) { st.open = !st.open; render(); }
+      });
+      render();
+    }).catch(function () { fail(body); });
+  }
+
+  function renderCatsPage(body) {
+    var I = LOGO;
+    body.innerHTML = '<div class="cats">' + CATS.map(function (c) {
+      var inner = (c.soon ? '<span class="pill-soon abs">قريباً</span>' : "") + '<img src="' + I + c.icon + '" alt="' + c.name + '"><b>' + c.name + "</b><small>" + c.desc + "</small>";
+      return c.soon ? '<div class="cat soon">' + inner + "</div>" : '<a class="cat" href="' + pageUrl("shop", { t: c.id, title: c.name }) + '">' + inner + "</a>";
+    }).join("") + "</div>" +
+      '<div class="sec-head" style="margin-top:32px"><h2>تسوّق حسب <span>الكولكشن</span></h2></div>' +
+      '<div class="k360-chips">' + COLLECTIONS.map(function (c) { return '<a class="k360-chip" href="' + pageUrl("shop", { col: c.id, title: "كولكشن " + c.ar }) + '">' + c.ar + "</a>"; }).join("") + "</div>";
+  }
+
+  function initPage() {
+    var q = new URLSearchParams(location.search), name = q.get("k360");
+    if (!name || !PAGES[name] || document.querySelector(".k360-page")) return;
+    var main = document.querySelector("main"); if (!main) return;
+    [].forEach.call(main.children, function (c) { if (!/SALLA-HOOK/i.test(c.tagName)) c.style.display = "none"; });
+    var title = q.get("title") || PAGES[name];
+    var page = document.createElement("div");
+    page.className = "k360-site k360-page";
+    page.innerHTML = '<div class="page-head"><div class="wrap"><div class="crumbs"><a href="' + base() + '">الرئيسية</a> / <span>' + esc(title) + "</span></div><h1>" + esc(title) + "</h1></div></div>" +
+      '<div class="wrap" style="padding:24px 16px 40px" data-page-body></div>';
+    main.insertBefore(page, main.firstChild);
+    document.title = title + " | كفرات 360";
+    var body = page.querySelector("[data-page-body]");
+    if (name === "shop") renderShopPage(body, q);
+    if (name === "cats") renderCatsPage(body);
+    if (name === "brands") body.innerHTML = '<div class="brands" data-k360="brands"></div>';
+    if (name === "best") body.innerHTML = '<salla-products-list source="sales" source-value="[]"></salla-products-list>';
+  }
+
   /* ---------- start ---------- */
   var INIT = { finder: initFinder, collections: initCollections, tabs: initTabs, garage: initGarage, shop: initShop, brands: initBrands };
   function scan() {
+    initPage();
     document.querySelectorAll("[data-k360]:not([data-k360-on])").forEach(function (el) {
       var fn = INIT[el.getAttribute("data-k360")]; if (!fn) return;
       el.setAttribute("data-k360-on", "1"); fn(el);
